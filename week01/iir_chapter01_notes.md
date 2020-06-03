@@ -46,3 +46,18 @@
 - Data structures to use:
     - For an in-memory postings list, two good alternatives: singly linked lists or variable length arrays
     - When stored on disk, contiguous run of postings without explicit pointers.
+
+## 1.3 Processing Boolean queries
+
+- **Intersection** (Merging) operation: Given the simple conjunctive query, we need to merge two lists with a logical `AND` operation.
+- Simple merge algorithm `INTERSECT(p_1, p_2)`: Walk through the two postings list simultaneously, in time linear in the total number of postings entries.
+    - At each step, we compare the `docID` in the results list, and advance both pointers. Otherwise, we advance the pointer pointing to the *smaller* `docID`.
+    - If the lengths of the postings lists are `x` and `y`, the intersection takes `O(x + y)` operations. (Formally, the complexity of queryin is `Theta(N)`, where `N` is the number of documents in the collection. Our indexing methods gain us just a constant, but that constant would be huge in practice)
+    - To use this algorithm, it is crucial that postings be sorted by a single global ordering. Using a numeric sort by `docID` is one simple way to achieve this.
+- *Query optimization*: The process of selecting how to organize the work of answering a query, so that the least total amount of work needs to be done.
+    - What is the best order in which postings lists are accessed?
+    - The standard heuristic is to process terms in order of *increasing document frequency*. If we start by intersecting the two smallest postings lists, then all intermediate results *must be no bigger* than the smallest postings list.
+    - When we have `OR`s combined by `AND`: Estimate the size of each `OR` by the sum of the frequencies of its disjuncts.
+    - For arbitrary Boolean queries, we would have to evaluate and temporarily store the answers for immediate expressions in a complex expression.
+    - However, in many circumstances, a query is *purely conjunctive*.
+    - `INTERSECT(<t_1, ..., t_n>)`: In this case, it would be more efficient to intersect each retrieved postings list with the current intermediate results in memory, where we initially set up the intermediate result with the posting list of the least frequent term.
