@@ -61,3 +61,13 @@
     - For arbitrary Boolean queries, we would have to evaluate and temporarily store the answers for immediate expressions in a complex expression.
     - However, in many circumstances, a query is *purely conjunctive*.
     - `INTERSECT(<t_1, ..., t_n>)`: In this case, it would be more efficient to intersect each retrieved postings list with the current intermediate results in memory, where we initially set up the intermediate result with the posting list of the least frequent term.
+
+## 1.4 The extended Boolean model versus ranked retrieval
+
+- *Ranked retrieval models* such as vector space models allow the users to use *free text queries*, where queries are just typing one or more words rather than using a precise language with operators for building up query expressions.
+- Many Boolean retrieval systems in the 90s implemented extended Boolean retrieval models, by incorporating additional operators such as term proximity operators.
+- Main additional things we would like to be able to do:
+    - Better determine the set of terms in the dictionary, in order to tolerate things like misspelled words and inconsistent word choices.
+    - Search for compounds or phrases: Indexes has to be augmented to capture the proximities of terms in documents.
+    - Giving more weights to documents that have a term several times: Term frequencies
+    - *Rank* or order the returned results
