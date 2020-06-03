@@ -28,3 +28,21 @@
 - **Inverted Index**:
     - Term-Document Matrix is extremely *sparse*: few non-zero entries. It would be better to record the things that do occur.
     - The basic idea: We keep a *dictionary* (vocabulary) of terms. For each term, we maintain a list of records ('posting') of the term appearing in certain documents.
+
+## 1.2 A first take at building an inverted index
+
+- Steps for building the index in advance consists of:
+    1. Collect the documents to be indexed.
+    2. *Tokenize* the text, turning each document into a list of tokens.
+    3. Make all the tokens *normalized* by performing linguistic preprocessing. These normalized terms will be the indexing terms.
+    4. Index the documents that each term occurs in by creating an inverted index, consisting of a dictionary and postings.
+- We assume for now that the first 3 are already done.
+- We focus on how to build a basic inverted index by *sort-based indexing*.
+    - The sequence of terms in each document, tagged by their `documentID` is sorted alphabetically.
+    - Instances of the same term are then grouped by word and then by `documentID`.
+    - The terms and `documentID` are then separated out. The dictionary stores the terms and has a pointer to the postings list for each term.
+    - It commonly also stores other summary information such as the *document frequency* of each term.
+- Dictionaries are typically stored in memory while postings lists are usually kept in disks.
+- Data structures to use:
+    - For an in-memory postings list, two good alternatives: singly linked lists or variable length arrays
+    - When stored on disk, contiguous run of postings without explicit pointers.
