@@ -53,7 +53,24 @@
 
 ### 2.2.3 Normalization (equivalence classing of terms)
 
-- 
+- We often would want tokens in queries to match the ones in the document even if they are not quite the same.
+- **Token normalization**: The process of *canonicalizing tokens* so that matches occur despite superficial differences in the character sequences of the tokens.
+- Most standard way: Implicitly creating **equivalence classes**, normally named after one member of the set
+    - It is not obvious when you might want to add characters.
+- Alternative: Maintain relations between unnormalized tokens.
+    - Can be extended to hand-constructed list of synonyms (e.g. `car` <-> `automobile`)
+    - Index *unnormalized* tokens and maintain a *query expansion list* (requires more processing at query time)
+        - Then a query term is effectively a *disjunction* of several postings lists.
+    - Or perform the expansion *during index construction* (require more space for storing postings)
+- The best amount of equivalence classing or query expansion to do is a fairly open question.
+- Common normalization forms:
+    - Accent and diacritics
+        - Occasionally words are distinguished only by their accents.
+    - Capitalization/case-folding: all letters to lower case, or just make some tokens lower case?
+    - Other issues in English
+    - Other languages
+        - Japanese: An intermingling of multiple alphabets - requires complex equivalence classing across the writing systems
+        - Document collections being indexed can include documents from many different languages.
 
 ### 2.2.4 Stemming and lemmatization
 
