@@ -39,3 +39,22 @@
     - Word segmentation: Heuristics, machine learning sequence models (trained over hand-segmented words)
     - Alternatives: Do all indexing via just short subsequences of characters (character k-grams) - individual Chinese character has some semantic content
 
+### 2.2.2 Dropping common terms: stop words
+
+- Stop words: Some extremely common words that would appear to be of *little value* in helping select documents matching a user need
+- Stop list: Take the most frequent terms hand-filtered for their semantic content relative to the domain of the documents being indexed.
+- Significantly reduces the number of postings that a system has to store, and a lot of the time not indexing stop words does little harm.
+    - However, phrase searches could be affected (e.g. `President of the United States`, `flights to London`)
+- The general trend in IR over time has been from standard use of quite large stop lists (200~300 terms) to very small stop lists (7~12 terms) to *no stop list whatsoever*.
+    - Exploiting the *statistics* of language so as to be able to cope with common words in better ways.
+    - Good compression
+    - Standard term weighting leading to very common words having *little impact* on document rankings
+    - Impact-sorted indexes to terminate scanning postings list *early*
+
+### 2.2.3 Normalization (equivalence classing of terms)
+
+- 
+
+### 2.2.4 Stemming and lemmatization
+
+- 
