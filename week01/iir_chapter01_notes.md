@@ -1,4 +1,4 @@
-# Boolean Retrieval
+# Chapter 1: Boolean Retrieval
 
 ## What's IR?
 

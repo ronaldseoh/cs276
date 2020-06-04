@@ -1,4 +1,4 @@
-# The term vocabulary and postings lists
+# Chapter 2: The term vocabulary and postings lists
 
 ## 2.1 Document delineation and character sequence decoding
 
