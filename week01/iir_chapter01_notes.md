@@ -61,6 +61,9 @@
     - For arbitrary Boolean queries, we would have to evaluate and temporarily store the answers for immediate expressions in a complex expression.
     - However, in many circumstances, a query is *purely conjunctive*.
     - `INTERSECT(<t_1, ..., t_n>)`: In this case, it would be more efficient to intersect each retrieved postings list with the current intermediate results in memory, where we initially set up the intermediate result with the posting list of the least frequent term.
+        - The intersection can be calculated *in place* by destructively modifying or marking invalid items in the intermediate results.
+        - Can also be done as a sequence of *binary searches* in the long postings lists for each posting in the intermediate results list.
+        - Another possibility is to store the long postings list as a *hash table*, so that membership of an intermediate result item can be calculate in *constant* rather than linear or log time.
 
 ## 1.4 The extended Boolean model versus ranked retrieval
 
