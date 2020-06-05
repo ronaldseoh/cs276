@@ -74,4 +74,14 @@
 
 ### 2.2.4 Stemming and lemmatization
 
-- 
+- Different forms of a word for grammatical reasons: (e.g. `organize`, `organizes`, `organizing`), and families of derivationally related words (e.g. `democracy`, `democratic`, `democratization`)
+- Reduce inflectional forms and derivationally related forms to *a common base form*.
+- **Stemming**: A crude heuristic process that chops off the ends of words in the hope of achieving the goal correctly most of the time
+- **Lemmatization**: Using a vocabulary and morphological analysis of words to remove inflectional endings only and return the base or dictionary form of a word (*lemma*)
+- Stemming most commonly collapses derivationally related words, whereas lemmatization commonly only collapses the different inflectional forms of a lemma.
+- *Porter Stemmer*: 5 phases of word reductions, applied sequentially.
+- Doing full morphological analysis produces at most very modest benefits for retrieval. Either form of normalization tends *not* to improve English information retrieval performance in aggregate - at least not by very much.
+- Stemming increases recall while harming precision.
+    - Moving to a lemmatizer wouldn't completely fix the problem because particular inflection forms are used in particular locations.
+    - Getting better value from term normalization depends more on *pragmatic issues of word use* than on formal issues of linguistic morphology.
+    - The situation is different for languages with much more morphology: quite large gains from the use of stemmers
