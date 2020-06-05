@@ -111,7 +111,10 @@
 - Phrases with more than two words can be processed by breaking them down.
     - Could work well in practice, but there can and will be occasional false positives: We cannot verify whether the documents actually contain the *original* phrase.
 - Noun and noun phrases: can be divided by various *function words* (e.g. `the abolition of slavery`, `renegotiation of the constitution`)
-    1. Tokenize the text and perform part-of-speech tagging.
+    1. Tokenize the text and perform part-of-speech tagging (ML model with hand-tagged text)
     2. Group terms into nouns, including proper nouns (`N`), and function words, including articles and prepositions (`X`), among other classes.
     3. Deem any strings of terms of the form `NX*N` to be an extended biword. *Each such extended biword is made a term in the vocabulary.*
+- *Phrase index*: Can be extended to longer sequences of words / indexes of *variable length* word sequences / an index of single-word terms
+    - The chances of a false positive match on indexed phrases of length 3 or more becomes very small.
+    - But with the potential to greatly expand the vocabulary size
 
