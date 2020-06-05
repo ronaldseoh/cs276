@@ -85,3 +85,17 @@
     - Moving to a lemmatizer wouldn't completely fix the problem because particular inflection forms are used in particular locations.
     - Getting better value from term normalization depends more on *pragmatic issues of word use* than on formal issues of linguistic morphology.
     - The situation is different for languages with much more morphology: quite large gains from the use of stemmers
+
+## 2.3 Faster postings list intersection via skip pointers
+
+- Basic intersection operation of lists with the lengths of `m` and `n` takes `O(m+n)` time. Can we do better?
+- **Skip list**: Augment postings lists with *skip pointers* at indexing time - skip pointers are effectively shortcuts that allow us to avoid processing parts of the postings list *that will not figure in the search results*.
+- A number of variant versions of postings list intersection with skip pointers is possible, depending on *when exactly you check the skip pointer*.
+- Skip pointers will only be available for the original postings lists.
+- The presence of skip pointers only helps for `AND` queries, not for `OR` queries.
+- More skips means shorter skip spans, and that we are more likely to skip.
+    - But it also means lots of comparisons to skip pointers, and lots of space storing skip pointers.
+- A simple heuristic: For a postings list of length `P`, use `sqrt(P)` evenly-spaced skip pointers.
+    - Ignores any details of the distribution of query terms.
+- Choosing the *optimal encoding* for an inverted index
+    - Nowadays, CPUs are fast and disk is slow, so reducing disk postings list size dominates. However, if you're running a search engine with everything in memory then the equation changes again.
