@@ -99,3 +99,19 @@
     - Ignores any details of the distribution of query terms.
 - Choosing the *optimal encoding* for an inverted index
     - Nowadays, CPUs are fast and disk is slow, so reducing disk postings list size dominates. However, if you're running a search engine with everything in memory then the equation changes again.
+
+# 2.4 Positional postings and phrase queries
+
+- Phrase queries (uses a double quotes syntax) and *implicit* phrase queries (like peoples' names; entered without use of double quotes).
+- It is no longer sufficient for postings lists to be simply lists of documents that contain individual terms.
+
+## 2.4.1 Biword indexes
+
+- Consider *every* pair of consecutive terms in a document as a phrase, or a *biword*
+- Phrases with more than two words can be processed by breaking them down.
+    - Could work well in practice, but there can and will be occasional false positives: We cannot verify whether the documents actually contain the *original* phrase.
+- Noun and noun phrases: can be divided by various *function words* (e.g. `the abolition of slavery`, `renegotiation of the constitution`)
+    1. Tokenize the text and perform part-of-speech tagging.
+    2. Group terms into nouns, including proper nouns (`N`), and function words, including articles and prepositions (`X`), among other classes.
+    3. Deem any strings of terms of the form `NX*N` to be an extended biword. *Each such extended biword is made a term in the vocabulary.*
+
