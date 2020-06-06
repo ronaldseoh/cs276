@@ -132,3 +132,10 @@
         - If a term has frequency 1 in 1000 terms on average, then a document with the size of 100,000 would have an expected number of entries in positional posting of 100.
         - While the exact numbers depend on the type of documents and the language being indexed, some rough rules of thumb are to expect a positional index to be *2 to 4 times as large as a non-positional index, and to expect a compressed positional index to be about one third to one half the size of the raw text of the original uncompressed documents*.
 
+### 2.4.3 Combination
+
+- Biword indexes and positional indexes can be fruitfully combined.
+- If certain queries are queried often, then it would be quite inefficient to keep merging positional postings lists.
+- A combination strategy uses a phrase index, or just a biword index, for certain queries and uses a positional index for other phrase queries.
+- Also, the most expensive phrase queries to evaluate are ones where the individual words are common but *the desired phrase is comparatively rare* (e.g. `The Who`)
+- Next word index (Williams et al. 2004)
