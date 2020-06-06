@@ -100,12 +100,12 @@
 - Choosing the *optimal encoding* for an inverted index
     - Nowadays, CPUs are fast and disk is slow, so reducing disk postings list size dominates. However, if you're running a search engine with everything in memory then the equation changes again.
 
-# 2.4 Positional postings and phrase queries
+## 2.4 Positional postings and phrase queries
 
 - Phrase queries (uses a double quotes syntax) and *implicit* phrase queries (like peoples' names; entered without use of double quotes).
 - It is no longer sufficient for postings lists to be simply lists of documents that contain individual terms.
 
-## 2.4.1 Biword indexes
+### 2.4.1 Biword indexes
 
 - Consider *every* pair of consecutive terms in a document as a phrase, or a *biword*
 - Phrases with more than two words can be processed by breaking them down.
@@ -118,7 +118,7 @@
     - The chances of a false positive match on indexed phrases of length 3 or more becomes very small.
     - But with the potential to greatly expand the vocabulary size
 
-## 2.4.2 Positional indexes
+### 2.4.2 Positional indexes
 
 - Positional index: For each term in the vocabulary, we store postings of the form `docID: <postion1, postion2, ...>`, where each position is a token index in the document.
 - To process a phrase query, you still need to access the inverted index entries for each distinct term.
