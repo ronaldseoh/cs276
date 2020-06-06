@@ -118,3 +118,17 @@
     - The chances of a false positive match on indexed phrases of length 3 or more becomes very small.
     - But with the potential to greatly expand the vocabulary size
 
+## 2.4.2 Positional indexes
+
+- Positional index: For each term in the vocabulary, we store postings of the form `docID: <postion1, postion2, ...>`, where each position is a token index in the document.
+- To process a phrase query, you still need to access the inverted index entries for each distinct term.
+    - As before, you would start with *the least frequent term* and then work to further restrict the list of possible candidates.
+    - During merge operation, you also need to check that their positions of appearance in the document are *compatible with the phrase query being evaluated*. This requires working out offsets between the words.
+- Because the number of items to check is now bounded not by the number of documents but by *the total number of tokens in the document collection `T`.
+    - Or it's `Theta(T)` instead of `Theta(N)`.
+    - Most applications have little choice but to accept this, since most users now expect to have the functionality of phrase and proximity searches.
+    - Space implications:
+        - The index size depends on the average document size. The average web page has less than 1000 terms, but others could easily reach 100,000 terms. 
+        - If a term has frequency 1 in 1000 terms on average, then a document with the size of 100,000 would have an expected number of entries in positional posting of 100.
+        - While the exact numbers depend on the type of documents and the language being indexed, some rough rules of thumb are to expect a positional index to be *2 to 4 times as large as a non-positional index, and to expect a compressed positional index to be about one third to one half the size of the raw text of the original uncompressed documents*.
+
