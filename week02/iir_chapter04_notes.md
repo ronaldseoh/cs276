@@ -50,3 +50,24 @@
         - Note that quick sort takes `O(N ln N)` expected steps.
     - However, the actual indexing time is usually dominated by the time it takes to *parse the documents* and *to do the final merge*.
 
+## 4.3 Single-pass in-memory indexing
+
+- BSBI scales well, but needs a data structure for mapping terms to `termID`s. For very large collection, this data structure does not fit into memory.
+- Single-pass in-memory indexing (SPIMI): 
+    - Uses terms instead of `termID`s
+    - Writes each block's *dictionary* (best implemented as hash) to disk, then starts a new dictionary for the next block
+- Tokens are processed one by one during each successive call of `SPIMI-INVERT`.
+- Differences between BSBI and SPIMI:
+    - SPIMI adds a posting directly to its postings list, instead of first collecting all pairs and sorting them: Each postings list is *dynamic*
+        - Faster because no sorting is required
+        - Saves memory because we keep track of the term a postings list belongs to, so the `termID`s of postings need not be stored
+        - As a result, blocks that SPIMI process could be much larger
+- Because we do not know how large the postings list of a term will be when first encounter it, we allocate space for a short postings list initially
+    - Double the space each time it is full
+    - Some memory could be wasted
+    - However, the overall memory requirements for the dynamically constructed index of a block in SPIMI are still lower than in BSBI.
+- When memory has been exhausted, we write the index of the block (dictionary and postings lists) to disk.
+    - We have to sort the terms first because we want to write postings lists in lexicographic order to facilitate the final merging step.
+- Both the postings and the dictionary terms can be stored compactly on disk if we employ compression.
+- Time Complexity: `Theta(T)` because no sorting of tokens is required and all operations are at most linear in the size of the collection.
+
