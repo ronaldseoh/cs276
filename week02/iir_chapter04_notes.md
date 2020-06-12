@@ -47,5 +47,6 @@
     3. Write the list to the disk.
 - How expensive is BSBI?
     - `Theta(T log T)` as the step with the highest time complexity is sorting and `T` is an upper bound for the number of items we must sort (the number of `termID`-`sortID` pairs)
+        - Note that quick sort takes `O(N ln N)` expected steps.
     - However, the actual indexing time is usually dominated by the time it takes to *parse the documents* and *to do the final merge*.
 
