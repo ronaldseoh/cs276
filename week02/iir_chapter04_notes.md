@@ -71,3 +71,36 @@
 - Both the postings and the dictionary terms can be stored compactly on disk if we employ compression.
 - Time Complexity: `Theta(T)` because no sorting of tokens is required and all operations are at most linear in the size of the collection.
 
+## 4.4 Distributed indexing
+
+- Collections are often too large to process on a single machine.
+- Web search engines in particular use *distributed indexing* algorithms for index construction.
+- We describe indexing for a *term-partitioned* index. (Most large search engines prefer a document-partitioned index)
+- **MapReduce**: A general architecture for distributed computing on large computer clusters
+    - Hundreds of machines would be on such clusters, but individual machines could fail any time
+    - Hence one requirement for robust distributed indexing is that we divide up the work up into chunks that we can easily assign, and *reassign* upon any failure.
+    - A *master node* directs the process of assigning and reassigning tasks to individual worker nodes.
+- The map and reduce phases of MapReduce split up the computing job into *chunks* that standard machines can process in a short time.
+    - The input data (i.e. a collection of web pages) are split into `n` splits
+    - Splits are not preassigned to machines, but are instead assigned by the master node on an ongoing basis
+        - If a machine dies or becomes a laggard due to hardware problems, the split it is working on is simply reassigned to another machine.
+- In general, MapReduce breaks a large computing problem into smaller parts by recasting it in terms of manipulation of *key-value pairs*.
+    - For indexing, a key-value pair has the form `(termID, docID)`.
+    - How do we manage the mapping from term to `termID`s in distributed indexing?
+        - Maintain a (perhaps precomputed) mapping for *frequent* terms that is copied to all nodes
+        - and use terms directly (instead of `termID`s) for infrequent terms
+        - We will assume that all nodes share a consistent term-`termID` mapping.
+- *Map Phase*: Mapping splits of the input data to key-value pairs.
+    - Since this is the same parsing task we've seen in BSBI and SPIMI, we call the machines that execute the map phase **parsers**.
+    - Each parser writes its output to local intermediate files, the *segment files*.
+- *Reduce Phase*: We want all values for a given key to be stored *close together*, so they can be read and processed quickly.
+    - Partition the keys into `j` term partitions
+    - Have the parsers write key-value pairs for each term partition into *a separate segment file*.
+        Example: The term partitions according to first letter: `a-f`, `g-p`, `q-z`, and `j=3`. (In general, key ranges need not correspond to contiguous terms or `termID`s.)
+    - Each term partition thus corresponds to `r` segment files, where `r` is the number of parsers.
+    - Collecting all values (`docID`s) for a given key (`termID`s) into one list is the task of the **inverters** in the reduce phase.
+        - The master assigns each term partition to a different inverter (we assume that segment files are of a size that a single machine can handle)
+    - The list of values is sorted for each key and written to the final sorted postings list.
+- Parsers and inverters are not separate set of machines - the master identifies idle machines and assigns tasks to them.
+- Each segment file only requires one sequential read because all data relevant to a particular inverter were written to a *single segment file* by the parsers.
+
