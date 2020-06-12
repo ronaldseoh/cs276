@@ -53,7 +53,7 @@
 ## 4.3 Single-pass in-memory indexing
 
 - BSBI scales well, but needs a data structure for mapping terms to `termID`s. For very large collection, this data structure does not fit into memory.
-- Single-pass in-memory indexing (SPIMI): 
+- **Single-pass in-memory indexing (SPIMI)**:
     - Uses terms instead of `termID`s
     - Writes each block's *dictionary* (best implemented as hash) to disk, then starts a new dictionary for the next block
 - Tokens are processed one by one during each successive call of `SPIMI-INVERT`.
