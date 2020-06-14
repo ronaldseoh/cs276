@@ -141,4 +141,16 @@
 
 ## 4.6 Other types of indexes
 
-- 
+- Positional indexes?
+    - `(termID, docID, (position1, position2, ...))`
+    - The algorithms we've discussed can be applied
+- Postings lists are ordered with respect to `docID`
+    - Advantageous for *compression*: Instead of `docID`s, we can compress smaller gaps(??) between IDs, thus reducing space requirements for the index.
+        - This isn't optimal for *ranked* retrieval
+            - Scanning can be terminated early when weights have become so small
+            - In a `docID`-sorted index, new documents are always inserted at the end postings lists
+            - In an impact-sorted index, the insertion can occur anywhere, thus complicating the update of the inverted index
+- Security
+    - Access Control Lists (ACL)
+        - The inverted ACL index has, for each user, a postings list of documents they can access
+        - Search results are intersected with this list.
