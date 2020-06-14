@@ -117,11 +117,28 @@
         - We can then filter out deleted documents before returning the search result.
     - Each time the auxiliary index becomes too large, we merge it into the main index.
         - Merging would reduce the number of disk seeks required over time.
-    - Unfortunately, the one-file-per-postings-list scheme is infeasible because most file systems cannot efficiently handle very large number of files.
-        - We could instead store the index as one large file
+    - If we store *each postings list* as a separate file, then the merge simply consists of extending each postings list of the main index by the corresponding postings list of the auxiliary index.
+        - Updating each document separately requires up to `M_{ave}` disk seeks, where `M_{ave}` is the average size of the vocabulary of documents in the collection.
+        - Unfortunately, the one-file-per-postings-list scheme is infeasible because most file systems cannot efficiently handle very large number of files.
+            - We could instead store the index as one large file
         - In reality, we often choose a compromise between the two
 - When we use one large file, we process each posting `floor(T/n)` times as
     - We touch it during each of `floor(T/n)` merges where `n` is the size of the auxiliary index and `T`, the total number of postings.
+        - (So there are `T/n` number of auxiliary indexes??)
     - The overall time complexity is `Theta(T^2/n)` (since `T * T/n`)
 - We can do better than `Theta(T^2/n)` by introducing `log_2 (T/n)` indexes.
+    - That is, instead of doing `floor(T/n)` merges straight, we could do *logarithmic merging*.
+    - Indexes `I_0, I_1, ... , I_n` have sizes of `2^0 * n, 2^1 * n, 2^2 * n`, and so on.
+    - Postings percolate up this sequence of indexes and process only once on each level.
+        - Assume that we start with an in-memory index `Z_0` of size `n`. (This is the *only* in-memory index, and we assume that we can store only up to `n` postings)
+        - When the limit `n` is reached, the `2^0 * n` postings in `Z_0` are transferred to `I_0` (This one is stored on `disk`). **And we empty `Z_0`**. 
+        - The next time `Z_0` is full, it is merged with `I_0` to create an index `Z_1` of size `2^1 * n`.
+        - Then `Z_1` is either stored as `I_1` (if there isn't already an `I_1`) or merged with `I_1` into `Z_2` if `I_1` exists.
+        - And so on...
+    - We service search requests by querying *in-memory* `Z_0` and all currently *valid* indexes `I_i` on disk and merging the results.
+        - This now requires the merging of `O(log(T/n))` indexes
+    - Overall index construction time is `Theta(T log(T/n))` because each posting is processed only once on each of the `log(T/n)` levels.
 
+## 4.6 Other types of indexes
+
+- 
