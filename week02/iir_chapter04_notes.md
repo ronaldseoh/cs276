@@ -104,3 +104,24 @@
 - Parsers and inverters are not separate set of machines - the master identifies idle machines and assigns tasks to them.
 - Each segment file only requires one sequential read because all data relevant to a particular inverter were written to a *single segment file* by the parsers.
 
+## 4.5 Dynamic indexing
+
+- Most collections are modified frequently with documents being added, deleted, and updated.
+- The simplest solution: Periodically reconstruct the index from scratch
+    - Works when the number of changes over time is small
+    - and a delay in making new documents search is acceptable: Construct a new index while the old one is still available for querying
+- If new documents need to be available quickly, maintain *two* indexes: a large *main* index and a small *auxiliary* index that stores new documents
+    - The auxiliary index gets stored in memory.
+    - Searches would get run on both indexes and then merged.
+    - Deletions are stored in an *invalidation bit vector*.
+        - We can then filter out deleted documents before returning the search result.
+    - Each time the auxiliary index becomes too large, we merge it into the main index.
+        - Merging would reduce the number of disk seeks required over time.
+    - Unfortunately, the one-file-per-postings-list scheme is infeasible because most file systems cannot efficiently handle very large number of files.
+        - We could instead store the index as one large file
+        - In reality, we often choose a compromise between the two
+- When we use one large file, we process each posting `floor(T/n)` times as
+    - We touch it during each of `floor(T/n)` merges where `n` is the size of the auxiliary index and `T`, the total number of postings.
+    - The overall time complexity is `Theta(T^2/n)` (since `T * T/n`)
+- We can do better than `Theta(T^2/n)` by introducing `log_2 (T/n)` indexes.
+
