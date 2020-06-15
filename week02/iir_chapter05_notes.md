@@ -73,3 +73,18 @@
     - 4 bytes each for frequency and postings pointer
     - 3 bytes for the term pointer
     - 8 bytes bytes on average for the term itself
+
+## 5.2.2 Blocked storage
+
+- Group terms in the string into blocks of size `k` and keep pointers only for the *first* term of each block.
+    - Plus, we store the *length* of the term in the string as an additional byte at the beginning of the term.
+- We eliminate `k-1` pointers, but instead introduce an additional `k` bytes for storing the length of each term.
+- In total, we save 5 bytes per 4-term block.
+    - `REUTERS-RCV1`: `400,000 * 1/4 * 5 = 0.5MB saved -> 7.1MB`
+- We can save even more space by increasing the block size `k`, at the expense of worsening the *speed of term lookup*.
+- **Front coding**: Consecutive entries in an alphabetically sorted list share common prefixes
+- Minimal perfect hashing: A hash function that maps `M` terms *without any collisions*
+    - Cannot be used in dynamic environment as new terms will create collision, requiring a completely new hash function all the time
+- Even with all the compression, it may be the case that storing the entire dictionary on memory is not feasible
+    - If we have to partition the dictionary onto pages that are stored on disk, then we can index the *first* term of each page using a B-tree.
+    - One additional seek for retrieving the dictionary page is a significant but tolerable cost.
