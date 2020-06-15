@@ -74,7 +74,7 @@
     - 3 bytes for the term pointer
     - 8 bytes bytes on average for the term itself
 
-## 5.2.2 Blocked storage
+### 5.2.2 Blocked storage
 
 - Group terms in the string into blocks of size `k` and keep pointers only for the *first* term of each block.
     - Plus, we store the *length* of the term in the string as an additional byte at the beginning of the term.
