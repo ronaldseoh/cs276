@@ -48,3 +48,28 @@
     - If the most frequent term occurs `cf_1` times, then the second most frequent term has *half* as many occurrences, and so on.
 - The intuition: Frequency decreases very *rapidly* with rank
 - *Power law* with exponent `k=-1`: We can write Zipf's law equivalently as `cf_i = ci^k` where `k=-1` and `c` is some constant.
+
+## 5.2 Dictionary compression
+
+- Dictionary data structures that achieve increasingly higher compression ratios
+- The main goal: Make the dictionary fit into the main memory, or at least a large portion of it
+    - So that it could support *high* query throughput.
+
+### 5.2.1 Dictionary as a string
+
+- The simplest solution: Sort the vocab lexicographically and store it in an array of fixed-width entries
+    - 20 bytes for the term itself
+    - 4 bytes for its document frequency
+    - 4 bytes for the pointer to its postings list: Resolves 4GB address space
+    - `REUTERS-RCV1`: `M * (20+4+4) = 400,000 * 28 = 11.2MB`
+- The average length of a term in English is about 8 characters, so on average we would be wasting 12 characters in the fixed-width scheme.
+    - At the same time, no way to store terms longer than 20 characters
+    - Solution: store dictionary terms as *one long string*
+        - Pointers mark the end of the preceding term and the beginning of the next. 
+        - Saves space, although we now need to store pointers
+            - `400,000 * 8 = 3.2 * 10^6`
+            - `log_2(3.2 * 10^6) \approx 22 bits or 3 bytes long`
+- In total, we now need `400,000 * (4+4+3+8) = 7.6MB`
+    - 4 bytes each for frequency and postings pointer
+    - 3 bytes for the term pointer
+    - 8 bytes bytes on average for the term itself
