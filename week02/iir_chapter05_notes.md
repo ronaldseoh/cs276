@@ -88,3 +88,23 @@
 - Even with all the compression, it may be the case that storing the entire dictionary on memory is not feasible
     - If we have to partition the dictionary onto pages that are stored on disk, then we can index the *first* term of each page using a B-tree.
     - One additional seek for retrieving the dictionary page is a significant but tolerable cost.
+
+## 5.3 Postings file compression
+
+- `REUTERS-RCV1`: Document identifiers are `log2(800,000) = 20 bits` long.
+    - The collection's size is about `800,000 documents * 200 tokens * 6 bytes = 960MB`
+    - The uncompressed postings file: `100,000,000 * 20 / 8 = 250MB`
+- Need to come up with ways to store postings using less than 20 bits per document
+- Idea: Postings for frequent terms are *close* together - the gaps between *postings* are short, requiring a lot less space than 20 bits
+    - While the gaps for a rare term that occurs only once or twice in a collection would need the whole 20 bits.
+    - For an economical representations, we need a *variable* encoding method that uses fewer bits for short gaps.
+
+### 5.3.1 Variable byte codes
+
+- **Variable byte (VB)**:
+    - "Payload": The last 7 bits; encodes part of the gap
+    - "Continuation bit": The first bit of byte. Set to 1 for the last byte of the encoded gap and 0 otherwise
+- We read a sequence of bytes with continuation bit 0, terminated by a byte with continuation bit 1. We then extract and concatenate the 7-bit parts.
+- Can be used for larger or smaller units than bytes
+    - Larger words require less bit manipulation, at the cost of less compression.
+    - Exact opposite for smaller words
