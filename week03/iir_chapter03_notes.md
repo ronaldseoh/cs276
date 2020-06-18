@@ -25,3 +25,18 @@
             - Beneficial especially when some of the dictionary is in disk - we can prefetch imminent binary tests at the current level
                 - The interval would be decided based on the sizes of disk blocks
     - Unlike hashing, search trees require the characters used in the collection to have a *prescribed ordering*
+
+## 3.2 Wildcard queries
+
+- Used in the following situations:
+    1. The user is uncertain of the spelling
+    2. Aware of variants of the term and looking for documents containing any of them
+    3. Looking for documents likely to be found after stemming, but unsure whether search engine performs them
+    4. Uncertain of the correct rendition of a foreign word or phrase
+- Trailing wildcard query: `*` symbol occurs only once at the end - use search tree
+- Leading wildcard query: Use *reverse B-tree* - each root-to-leaf path of the tree corresponds to a term in the dictionary written *backwards*
+- Wildcard in the middle of a search query: Use a regular B-tree first, and then use a reverse B-tree
+
+### 3.2.1 General wildcard queries
+
+- 
