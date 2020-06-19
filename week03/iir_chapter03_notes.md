@@ -33,10 +33,24 @@
     2. Aware of variants of the term and looking for documents containing any of them
     3. Looking for documents likely to be found after stemming, but unsure whether search engine performs them
     4. Uncertain of the correct rendition of a foreign word or phrase
-- Trailing wildcard query: `*` symbol occurs only once at the end - use search tree
+- Trailing wildcard query: `*` symbol occurs only once at the end - use search tree to go through all documents containing terms starting with the prefix
 - Leading wildcard query: Use *reverse B-tree* - each root-to-leaf path of the tree corresponds to a term in the dictionary written *backwards*
-- Wildcard in the middle of a search query: Use a regular B-tree first, and then use a reverse B-tree
+- Wildcard in the middle of a search query:
+    - Use a regular B-tree first
+    - then use a reverse B-tree
+    - Intersect the two sets
 
 ### 3.2.1 General wildcard queries
 
-- 
+- Express the given wildcard query `q_w` as a Boolean query `Q` on a specially constructed index
+    - such that the *answer* to `Q` is a *superset* of the set of vocabulary terms matching `q_w`.
+- Then we check each term in the answer to `Q` against `q_w`, discarding those vocab terms that do not match `q_w`.
+- **Permuterm Indexes**
+    - `$`: a special symbol to mark the end of a term. First attach this to the original term.
+    - Construct a permuterm index: the various *rotations* of each term (augmented with `$`) all link to the original vocabulary term (ex. `hello -> hello$, ello$h, llo$he, lo$hel, ...`) We will refer to these rotations as *permuterm vocabularies.*
+- For wildcard queries, we would want to rotate the query in a way that the `*` symbol appears at the *end* of the string. (ex. `m*n -> n$m*`)
+    - Once if there are permuterm vocabularies that match the rotation, then the original terms linked to the permuterm vocabularies must match the original query.
+- Multiple wildcards
+    - We first rotate as if the letters between the two wildcards don't exist: (ex. `fi*mo*er -> er$fi*`)
+    - Then we go through all the matched vocabularies to see if they contain the crossed out letter sequences.
+- Dictionaries for permuterm indexes would be really large, in order to store all different rotations of each terms
