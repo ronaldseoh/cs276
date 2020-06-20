@@ -61,4 +61,40 @@
     (Example: `$ca, cas, ast, stl, tle, le%` are all 3-grams occuring in `castle`. Note that `$` is still a character!)
 - `re*ve` turns into Boolean queries of `$re` and `ve$`. We look these up in the 3-gram index and get a list of matching terms. This list is a *conjunction* of the two 3-grams.
 - We then do a post-filtering step to find the terms that actually match the original query.
- 
+
+## 3.3 Spelling correction
+
+- Edit distance
+- `k`-gram overlap
+
+### 3.3.1 Implementing spelling correction
+
+- Principle 1: Choose the *nearest* one among all possible *correct* spellings.
+- Principle 2: Given two tied correct spellings, choose more *common* one.
+    - Consider the number of occurrences *within the collection?*
+
+### 3.3.2 Forms of spelling correction
+
+- *Isolated-term correction*: Correct each query term individually, without considering other terms in the query
+    - Edit distance
+    - `k`-gram overlap
+- *Context-sensitive correction*
+
+### 3.3.3 Edit distance
+
+- **Edit distance** (Levenshtein distance): Minimum number of edit operations required to transform `s_1` to `s_2`.
+    - Insert a character into a string
+    - Delete a character from a string
+    - Replace a character of a string by another character
+- We can generalize edit distance by allowing varying weights for different edit operations
+- How to compute edit distance:
+    - Use the dynamic programming algorithm: `O(|s_1| * |s_2|)` time
+        - Fills in the entries in a matrix `m` where two dimensions equal the lengths of the two strings whose edit distances is being computed
+        - `m[i, j]` is the edit distance between the string of the first `i` characters of `s_1` and the first `j` characters of `s_2`.
+- But simplying calculating edit distance for all terms is really expensive
+- Heuristics:
+    - Restrict the search to dictionary terms beginning with the same letter as the query string
+    - Use a version of permuterm index: the set of all rotations of the query string - for each rotation `r`, retrieve all terms with rotations beginning with `r`
+        - Could miss more pertinent terms
+        - Refinement: For each rotation, discard a suffix of `l` characters before going through the permuterm index
+            - Each retrieved term includes a *long* substring in common with the original query
