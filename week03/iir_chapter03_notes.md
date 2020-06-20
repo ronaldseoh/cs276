@@ -54,3 +54,11 @@
     - We first rotate as if the letters between the two wildcards don't exist: (ex. `fi*mo*er -> er$fi*`)
     - Then we go through all the matched vocabularies to see if they contain the crossed out letter sequences.
 - Dictionaries for permuterm indexes would be really large, in order to store all different rotations of each terms
+
+### 3.2.2 k-gram indexes for wildcard queries
+
+- A `k`-gram is a sequence of `k` characters. 
+    (Example: `$ca, cas, ast, stl, tle, le%` are all 3-grams occuring in `castle`. Note that `$` is still a character!)
+- `re*ve` turns into Boolean queries of `$re` and `ve$`. We look these up in the 3-gram index and get a list of matching terms. This list is a *conjunction* of the two 3-grams.
+- We then do a post-filtering step to find the terms that actually match the original query.
+ 
