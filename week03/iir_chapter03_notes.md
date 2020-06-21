@@ -113,3 +113,10 @@
         - Proceed from one vocabulary term `t` to the next
         - `t` might be written in some encoding, but we only need its length (?)
 
+### 3.3.5 Context sensitive spelling correction
+
+- Isolated-term correction would fail to correct when individual terms in the query are correctly spelled
+- Simplest solution: Enumerate corrections of the all individual query terms and try substituting each
+    - Expensive
+    - Heuristic: Look for most *frequent* combinations in the collection or the query logs
+
