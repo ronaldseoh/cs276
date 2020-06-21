@@ -61,6 +61,9 @@
     (Example: `$ca, cas, ast, stl, tle, le%` are all 3-grams occuring in `castle`. Note that `$` is still a character!)
 - `re*ve` turns into Boolean queries of `$re` and `ve$`. We look these up in the 3-gram index and get a list of matching terms. This list is a *conjunction* of the two 3-grams.
 - We then do a post-filtering step to find the terms that actually match the original query.
+- Wildcard queries are essentially a disjunction of single-term queries
+    - Then combination of wildcard queries using Boolean operators are *conjunctions* of disjunctions
+    - Increases the processing load on search engines due to added lookups and filtering
 
 ## 3.3 Spelling correction
 
