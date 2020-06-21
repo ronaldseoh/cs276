@@ -120,3 +120,16 @@
     - Expensive
     - Heuristic: Look for most *frequent* combinations in the collection or the query logs
 
+## 3.4 Phonetic correction
+
+- Phonetic correction: Correcting a query that *sounds like* the target term
+- Main idea: Generate a **phonetic hash** that similar-sounding terms would all hash to
+- **Soundex Algorithms**
+    1. Turn every term to be indexed into *a 4-character reduced form*, and build an inverted index called *soundex index* from these reduced forms to the original terms
+    2. Do the same with query terms
+    3. When the query calls for a soundex match, search this soundex index
+- Instead of 4-character reduced form, there is an alternative in the form of alphabet plus three digits
+- Observations:
+    - Vowels are viewed as interchangeable, in transcribing names
+    - Consonants with similar sounds are put in equivalence classes: related names would often have same soundex codes
+- These methods are writing system dependent
