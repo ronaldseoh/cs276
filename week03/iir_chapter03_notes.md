@@ -93,8 +93,20 @@
         - `m[i, j]` is the edit distance between the string of the first `i` characters of `s_1` and the first `j` characters of `s_2`.
 - But simplying calculating edit distance for all terms is really expensive
 - Heuristics:
-    - Restrict the search to dictionary terms beginning with the same letter as the query string
-    - Use a version of permuterm index: the set of all rotations of the query string - for each rotation `r`, retrieve all terms with rotations beginning with `r`
+    1. Restrict the search to dictionary terms beginning with the same letter as the query string
+    2. Use a version of permuterm index: the set of all rotations of the query string - for each rotation `r`, retrieve all terms with rotations beginning with `r`, that *do not have* a small edit distance from `q`
         - Could miss more pertinent terms
-        - Refinement: For each rotation, discard a suffix of `l` characters before going through the permuterm index
-            - Each retrieved term includes a *long* substring in common with the original query
+        - Refinement: For each rotation, discard a *suffix* of `l` characters before going through the permuterm index
+            - Each retrieved term would be long enough to have a some substring in common with `q`.
+
+### 3.3.4 k-gram indexes for spelling correction
+
+- Further limit the set of vocabulary terms to compute edit distances
+- Find terms that have many `k`-grams *in common* with the query: For "reasonable definitions" of "many `k`-grams in common", we can simply do a *single* scan through the `k`-grams index for the *original* query `q`.
+    - Simply finding some terms with common `k`-grams may lead to an *implausible* (unlikely?) correction of the original query
+    - Need more *nuanced* measures of the overlap in `k`-grams between a vocabulary term and the query
+    - **Jaccard coefficient**: measuring overlap between two sets, `|A \cap B| / |A \cup B|`
+        - The set of `k`-grams in the query `q`
+        - Proceed from one vocabulary term `t` to the next
+        - `t` might be written in some encoding, but we only need its length (?)
+
