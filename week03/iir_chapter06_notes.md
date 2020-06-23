@@ -28,3 +28,9 @@
     - `\sum_{i=1}^{l} g_i * s_i`, where `g_i` are weights given for each zone, and `s_i` is the score from each zone
 - Weighted zone scoring is also referred to as a **ranked Boolean retrieval**.
 
+### 6.1.2 Learning weights
+
+- How do we set the weights??
+- Used to be set by 'experts', but nowadays we learn them from curated training examples
+- *Machine-learned Relevance*
+
