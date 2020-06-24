@@ -68,3 +68,22 @@
     - together with a tf-idf for each component
 - *Overlap score measure*: Sum up the tf-idf of each term in `d`
 
+## 6.3 the vector space model for scoring
+
+- Basic ideas underlying vector space scoring
+- We can view queries as vectors in the **same vector space** as the document collection
+
+### 6.3.1 Dot products
+
+- How do we quantify the similarity between two documents?
+- Simple idea: Measure the magnitude of the vector difference between the two
+    - Drawback: Difference could be big just because one is much longer than the other, even though the contents are quite similar
+        - The relative distribution of terms could be quite similar, even when the absolute frequencies of one may be far larger.
+- **Cosine similarity**: `\frac{V(d1) \cdot V(d2)}{|V(d1)| * |V(d2)|}`
+    - The numerator is the *dot product*: The cosine of the angle `\Theta` between the two vectors
+    - The denominator is the product of their Euclidean lengths: length-normalization
+- **Term-Document Matrix**: `MxN` matrix
+    - `M` terms
+    - `N` documents
+- Terms should be stemmed before indexing
+
