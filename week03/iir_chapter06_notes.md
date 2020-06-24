@@ -34,6 +34,10 @@
 - Used to be set by 'experts', but nowadays we learn them from curated training examples
 - *Machine-learned Relevance*
 
+### 6.1.3 The optimal weight g
+
+- Differentiation of total error
+
 ## 6.2 Term frequency and weighting
 
 - A document or zone that mentions a query term *more often* should be given higher scores.
