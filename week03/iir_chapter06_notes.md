@@ -93,3 +93,13 @@
 - A document may have a high cosine score for a query *even if it does not contain all query terms.*
 - Computing similarities in tens of thousands of dimensions could be expensive
 
+### 6.3.3 Computing vector scores
+
+- We seek the `K` documents of the collection with the highest vector space scores on the given query.
+- Term-at-a-time scoring or accumulation: Need to be maintaining weight values of each term `t` for document `d`, which could be wasteful as they are floating point values
+    - We could instead simply store `N/df_t` at the head of postings for `t` and `tf_{t, d}` for each postings entry
+- Select the top `K` scores would require a priority queue structure, often using a heap
+    - `2N` comparisons to construct
+    - each of `K` scores can be extracted from the heap at a cost of `O(log N)` comparisons
+- Document-at-a-time: We might be able to traverse the postings lists of the various query terms *concurrently* - We would then compute the scores of one document at a time
+
