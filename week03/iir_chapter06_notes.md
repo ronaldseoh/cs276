@@ -52,3 +52,15 @@
     - Document frequency and collection frequency could behave quite differently
 - **Inverse document frequency (idf)**: `idf_t = log(N / df_t)`
 
+### 6.2.2 Tf-idf weighting
+
+- Produce a composite term form each term in each document, using term frequency and idf
+- `tf-idf_{t,d} = tf_{t,d} * idf_t`, where `t` is a term and `d` is a document
+    - Highest when `t` occurs many times within a *small* number of documents (thus lending high discriminating power to those documents)
+    - Lower when the term occurs fewer times in a document, or occurs in many documents
+    - Lowest when the term occurs in virtually *all* documents
+- We can now consider a document to be a *vector*
+    - with one component corresponding to each term in the dictionary
+    - together with a tf-idf for each component
+- *Overlap score measure*: Sum up the tf-idf of each term in `d`
+
