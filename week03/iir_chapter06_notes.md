@@ -34,3 +34,21 @@
 - Used to be set by 'experts', but nowadays we learn them from curated training examples
 - *Machine-learned Relevance*
 
+## 6.2 Term frequency and weighting
+
+- A document or zone that mentions a query term *more often* should be given higher scores.
+- Free text query: Terms are given without any connecting search operators - we simply view them as a set of words
+    - Then we could simply compute the total score by summing up over each term a match score between each query term and the document
+- We need to assign *weights* to each term in the document
+    - The simplest approach: Use *term frequency* - Weights to be equal to *the number of occurrences* of term `t` in the document `d`.
+- **Bag of Words Model**: Having number of occurrences as weights is a *quantitative digest* of the document; ignores the exact ordering of the terms
+    - Intuitive that two documents with similar bag of words represnetations are similar *in content*.
+
+### 6.2.1 Inverse document frequency
+
+- Using plain term frequency could be problematic when certain terms have very little or no discriminating power in determining relevance
+    - Simple Solution: *Scale down* the term weights of terms with high *collection* frequency (total number of occurrences within the entire collection)
+- *Document frequency*: The number of *documents* in the collection that contain the term
+    - Document frequency and collection frequency could behave quite differently
+- **Inverse document frequency (idf)**: `idf_t = log(N / df_t)`
+
