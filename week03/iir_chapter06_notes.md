@@ -71,7 +71,6 @@
 ## 6.3 the vector space model for scoring
 
 - Basic ideas underlying vector space scoring
-- We can view queries as vectors in the **same vector space** as the document collection
 
 ### 6.3.1 Dot products
 
@@ -86,4 +85,11 @@
     - `M` terms
     - `N` documents
 - Terms should be stemmed before indexing
+
+### 6.3.2 Queries as vectors
+
+- We can view queries as vectors in the **same vector space** as the document collection
+- The number of dimensions will equal the vocabulary size `M`.
+- A document may have a high cosine score for a query *even if it does not contain all query terms.*
+- Computing similarities in tens of thousands of dimensions could be expensive
 
