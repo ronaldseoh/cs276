@@ -103,3 +103,12 @@
     - each of `K` scores can be extracted from the heap at a cost of `O(log N)` comparisons
 - Document-at-a-time: We might be able to traverse the postings lists of the various query terms *concurrently* - We would then compute the scores of one document at a time
 
+## 6.4 Variant tf-idf functions
+
+### 6.4.1 Sublinear tf scaling
+
+- It is questionable whether 20 times the occurrence necessarily indicates 20 times the importance
+- Alternative: Use the logarithm of the term frequency
+- `wf_{t,d} = 1+log(tf_{t,d})` if `tf_{t,d} > 0`, `0` otherwise
+- `wf-idf_{t,d}`
+
