@@ -112,3 +112,15 @@
 - `wf_{t,d} = 1+log(tf_{t,d})` if `tf_{t,d} > 0`, `0` otherwise
 - `wf-idf_{t,d}`
 
+### 6.4.2 Maximum tf normalization
+
+- Normalize the tf weights of all terms occuring in a document by *the maximum tf in that document*.
+- Let `tf_{max}(d) = max_{\tau \in d} tf_{\tau, d}`, where `\tau` range over all terms in `d`.
+- `ntf_{t,d} = a + (1-a) * \frac{tf_{t,d}}{tf_{max}(d)}`
+    - `a` is a *smoothing term*; values between 0 and 1 and is generally set to 0.4. *Dampens* the contribution of the second term
+        - We want to avoid a *large swing* in `ntf` from modest changes in `tf_{t,d}`.
+- We want to use this because we want to deal with the cases of higher term frequencies in longer documents as longer ones tend to repeat the same words over and over again
+- This method could be unstable in the cases like the following:
+    - when the list of stop words changes
+    - A document may contain an outlier term with an unusually large number of occurrences
+
