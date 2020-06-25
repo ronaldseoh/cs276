@@ -125,4 +125,12 @@
     - A document may contain an outlier term with an unusually large number of occurrences
     - If the most frequent term appears roughly as often as many other terms, compared to having a more skewed distribution, that should be treated differently.
 
+### 6.4.3 Document and query weighting schemes
+
+- *SMART* notation
+- `ddd.qqq`: `ddd` represents the term weighting of the document vector, and the second gives the weighting for the query vector
+    - the first letter: term frequency
+    - the second: document frequency
+    - the third: normalization
+- Quite common to apply different normalization to `d` and `q`
 
