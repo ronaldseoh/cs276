@@ -21,3 +21,12 @@
     - Theorem: The PRP is optimal, in the sense that it minimizes the expected loss (aka the *Bayes risk*) under 1/0 loss.
         - Requires that all probabilities are known *correctly*, which is rarely the case in practice
 
+### 11.2.2 The PRP with retrieval costs
+
+- Now consider additional retrieval costs associated with relevant and non-relvant documents.
+- `C_1`: The cost of *not* retrieving a relevant document
+- `C_0`: The cost of retrieving a *non-relevant* document
+- According to the PRP, if `C_0 * P(R=0 | d) - C_1 * P(R=1 | d) <= C_0 * P(R=0 | d') - C_1 * P(R=1 | d')`, for a specific document `d` and for all documents `d'` not yet retrieved,
+    - Then `d` should be the next document to be retrieved.
+    - This allow us to model differential costs of false positives and false negatives at modelling stage, rather than considering them at *evaluation* stage.
+
