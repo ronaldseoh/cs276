@@ -123,4 +123,6 @@
 - This method could be unstable in the cases like the following:
     - when the list of stop words changes
     - A document may contain an outlier term with an unusually large number of occurrences
+    - If the most frequent term appears roughly as often as many other terms, compared to having a more skewed distribution, that should be treated differently.
+
 
