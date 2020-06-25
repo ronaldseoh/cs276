@@ -134,3 +134,27 @@
     - the third: normalization
 - Quite common to apply different normalization to `d` and `q`
 
+### 6.4.4 Pivoted normalized document length
+
+- Normalizing each document vector by the Euclidean length
+    - Masks some subtletes about longer documents
+        - Higher tf values
+        - More distinct terms
+- The nature of longer documents
+    1. Verbose documents that essentially repeat the same content: the length does not alter the relative weights of different terms
+    2. Documents covering multiple different topics: Search terms probably match *small segments* of the document but not all of it
+        - Relative weights of terms are quite different from a single short document that matches the query terms
+        - Need normalization that is independent of term and document frequencies
+- Resulting normalized documents to be not necessarily of unit length
+- *Pivoted document length normalization*: when computing dot product score with a (unit) query vector, the score is *skewed* to account for the effect of document length on relevance.
+- Suppose that we have a document collection with an ensemble of queries
+    - and Boolean judgments of whether or not each `d` is relevant to each query `q`.
+- Then we could calculate a *probability of relevance*: a function of document length, averaged over all queries in the ensemble.
+- Cosine normalization equation has a tendency to distort the true relevance, at the expense of longer documents.
+    - *Pivot length* `l_p`: the point where distortion trend changes
+- Want to adjust this to match more closely to the true relevance curve: rotate the cosine normalization curve *counter-clockwise* about `p`
+    - Use normalization factor *larger* than the Euclidean length for documents shorter than `l_p`
+    - Use normalization factor *smaller* than the Euclidean length for documents longer than `l_p`
+- Simple implementation: `a * |V(d)| + (1-a) piv`, where `piv` is the cosine normalization value at which the two curves intersect.
+    - `a < 1`
+    - Crosses the `y=x` line at `piv`
