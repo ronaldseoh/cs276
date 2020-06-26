@@ -30,3 +30,20 @@
     - Then `d` should be the next document to be retrieved.
     - This allow us to model differential costs of false positives and false negatives at modelling stage, rather than considering them at *evaluation* stage.
 
+## 11.3 The Binary Independence Model
+
+- Documents and queries are both represented as binary term incidence vectors.
+- A document `d` is represented by the vector `\vec{x} = (x_1, ..., x_M)` where `x_t = 1` if term `t` is present in document `d` and `0` if not.
+    - Many possible documents could have identical representation under this scheme.
+- A query is represented by the *incidence vector* `\vec{q}`
+- Independence: Terms are occurring in the documents *independently* - not really correct, but often gives satisfactory results in practice
+- Assume that the user has a single step information need
+- We need to figure out the contribution of terms to the document's relevance
+    - How statistics like term frequency, document frequency, document length *influence judgments about document relevance*
+    - And how we could reasonably combine them to estimate the probability of relevance
+- Another assumption: The relevance of each document is independent of other documents' relevance probabilities
+    - This is especially harmful when we allow returning duplicate or near duplicate documents
+- Then using Bayes rule, `P(R=1 | \vec{x}, \vec{q}) = \frac{P(\vec{x} | R=1, \vec{q}) * P(R=1 | \vec{q})}{P(\vec{x} | \vec{q})}`, and accordingly for `R=0`.
+- We never know the exact probabilities, so we have to use estimates.
+    - If we knew the true percentage of relevant documents in the collection, we could use that as priors.
+
