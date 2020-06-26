@@ -47,3 +47,24 @@
 - We never know the exact probabilities, so we have to use estimates.
     - If we knew the true percentage of relevant documents in the collection, we could use that as priors.
 
+### 11.3.1 Deriving a ranking function for query terms
+
+- We can rank by just looking at the odds of relevance rather than the full probability
+    - `O(R | \vec{x}, \vec{q}) = \frac{P(R = 1 | \vec{x}, \vec{q})}{P(R = 0 | \vec{x}, \vec{q})}`
+    - `= \frac{P(R = 1 | \vec{q})}{P(R = 0 | \vec{q})} * \frac{P(\vec{x} | R = 1, \vec{q})}{\vec{x} | R = 0, \vec{q})}`
+- The fraction of prior probabilities are constant for a given query; no need to estimate it
+- But how can we estimate the probability of an entire term incidence vector occurring?
+- *Naive Bayes Conditional Independence Assumption*: The presence or absence of a word in a document is independent of the presence or absence of any other words, given the query.
+    - Then `O(R | \vec{x}, \vec{q}) = O(R | \vec{q}) * \prod_{t=1} \frac{P(x_t | R=1, \vec{q})}{P(x_t | R=0, \vec{q})}`
+- Additional assumption: Terms *not* occurring in the query are *equally likely* to occur in relevant and nonrelevant documents
+    - If `q_t = 0` Then `p_t = u_t`.
+    - Then we only need to consider terms that appear in the query
+    - And divide the product term into the product over the query terms *found in the document* and the ones *not* found in the document.
+- **Retrieval Status Value (RSV)**: The only thing we need to estimate eventually to rank documents
+    - `RSV_d = \sum_{t: x_t=q_t=1} log \frac{p_t * (1-u_t)}{u_t * (1-p_t)}`
+    - Define `c_t = log \frac{p_t}{1-p_t} + log \frac{1-u_t}{u_t}`
+        - This term is log odds ratios for each term in the query.
+        - The value will be 0 if a term has equal odds of appearing in relevant and non-relevant documents
+        - Positive if it is more likely to appear in *relevant* documents.
+        - `RSV_d` is the document score for a query.
+
