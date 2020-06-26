@@ -68,3 +68,17 @@
         - Positive if it is more likely to appear in *relevant* documents.
         - `RSV_d` is the document score for a query.
 
+### 11.3.2 Probability estimates in theory
+
+- If we say that there are `S` relevant documents in total, and `x_t` is present in `s` documents, then
+    - `p_t = s/S` and `u_t = (df_t - s) / (N - S).`
+- Relative Frequency: One way to estimate the probability of an event from data is simply to count the number of times an event occurred divided by the total number of trials.
+- Maximum Likelihood Estimate (MLE): Estimating the probability as the relative frequency.
+    - The probability given to events we *happened to see* is usually too high
+    - While probabilities given to unseen events become 0 and breaks our models
+- *Smoothing*: Simultaneously decreasing the estimated probability of *seen* events and increasing the probability of *unseen* events
+- Maximum a Posteriori (MAP): Choose the most likely point value for probabilities based on the prior and the observed evidence
+    - Pseudocounts: Add a number `\alpha` to each of the observed counts.
+        - Equivalent to using a uniform distribution over the vocabulary as a *Bayesian Prior*
+        - `\alpha` denotes the strength of our belief in uniformity
+
