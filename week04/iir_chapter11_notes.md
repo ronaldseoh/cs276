@@ -82,3 +82,17 @@
         - Equivalent to using a uniform distribution over the vocabulary as a *Bayesian Prior*
         - `\alpha` denotes the strength of our belief in uniformity
 
+### 11.3.3 Probability estimates in practice
+
+- Under the assumption that relevant documents are a *very small percentage* of the collection
+- Plausible to approximate statistics for non-relevant documents by using statistics for the *whole collection*
+    - Then `u_t = df_t / N` and `log [(1-u_t)/u_t] \approx log N / df_t`.
+    - This gives a justifcation for idf weighting used in Chapter 6.
+- But we can't estimate `p_t` using the idea like this. Instead:
+    - Use the frequency of term occurrence in *known* relevant documents
+    - Croft and Harper (1979): Using a constant for `p_t`
+        - If `p_t=0.5`: Cancels out the first term in RSV. Weak estimate, but doesn't disagree violently with our hopes for the search terms appearing in many but *not all* relevant documents
+        - Combined with our `u_t` estimation, the document ranking is determined simply by which query terms occur in documents, scaled by their idf weighting.
+            - Works well enough in short documents (titles or abstracts), but we want to do better
+    - Greiff (1988): Empirically, `p_t` rises with `df_t`. He estimates it to be `p_t = 1/3 + 2/3 * df_t / N`.
+
