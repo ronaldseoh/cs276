@@ -96,3 +96,22 @@
             - Works well enough in short documents (titles or abstracts), but we want to do better
     - Greiff (1988): Empirically, `p_t` rises with `df_t`. He estimates it to be `p_t = 1/3 + 2/3 * df_t / N`.
 
+### 11.3.4 Probabilistic approaches to relevance feedback
+
+- Use relevance feedback to get a better estimate of `p_t`
+    1. Guess initial estimates of `p_t` and `u_t`.
+    2. Use the current estimate of `p_t` and `u_t` to make the best guess about what the true set of relevant documents `R = {d: R_{d,q} = 1}` should be.
+    3. Make the user provide judgments about those documents presented and we put them in the set `V`. We can partition this into two parts:
+        - `VR = {d \in V, R_{d,q} = 1} \in R`
+        - `VNR = {d \in V, R_{d,q} = 0} \notin R`
+    4. We re-estimate `p_t` and `u_t`. If the sets `VR` and `VNR` are large enough, we may be able to estimate this quantities directly from these documents as MLEs:
+        - `p_t = |VR_t| / |VR|`
+        - Since we will need some smoothing, we can try `p_t = \frac{|VR_t| + 1/2}{|VR| + 1}`, by adding `1/2` to both the counts of the relevant documents containing and *not* containing the term.
+        - However, the user would give very small `V`, so the estimate would be unreliable even with smoothing.
+        - Hence it is often better to combine the new information using *Bayesian updating*
+            - `p_t^{(k+1)} = \frac{|VR_t| + \kappa * p_t^{k}}{|VR| + \kappa}`. We use `p_t^{k}` as a Bayesian prior with the weight of `\kappa`.
+            - This allow us to distribute `\kappa` pseudocounts according to the previous estimate, instead of uniformly distributing them.
+            - In the absence of further evidence, and assuming the users indicating relevance/non-relevance of 5 documents), `\kappa=5` might be appropriate. In other words, prior is weighted strongly enough in order to prevent estimates changing too much due to evidence coming from too small number of documents.
+    5. Repeat the process from step 2 until the user is satisfied.
+- We can also do a pseudo-relevance version, by assuming that `VR=V`.
+
