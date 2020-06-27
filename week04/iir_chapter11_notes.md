@@ -141,3 +141,11 @@
 - For more modern full-text searches, we need to consider term frequencies and document length
 - *The BM25 weighting scheme (Okapi weighting)*
 
+### 11.4.4 Bayesian network approaches to IR
+
+- Turtle and Croft: A document collection network and a query network
+- The document collection network can be pre-computed
+    - Maps from documents to terms to *concepts*
+    - The concepts are a theasaurus-based expansion of the terms appearing in the document
+- The query network is small but needs to be built for each new queries
+    - Maps from query terms, to query expressions (built using probabilistic or noisy version of `AND` and `OR` operators), to the user's information need
