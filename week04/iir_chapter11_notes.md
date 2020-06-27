@@ -115,3 +115,17 @@
     5. Repeat the process from step 2 until the user is satisfied.
 - We can also do a pseudo-relevance version, by assuming that `VR=V`.
 
+## 11.4 An appraisal and some extensions
+
+### 11.4.1 An appraisal of probabilistic models
+
+- Major assumptions of probabilistic IR models:
+    - A Boolean representation of documents, queries, and relevance
+    - Term independence
+    - Terms not in the query don't affect the outcome
+    - Document relevance values are independent
+- The severity of the modelling assumptions had made achieving good performance difficult
+- The difference between vector space model and probabilistic models are not that great
+    - In prob. IR, you score queries not by cosine similarity and tf-idf in a vector space, but instead with a formula derived from probability theory
+    - Some people have changed an existing vector space system by adopting term weighting formulas from prob. models
+
