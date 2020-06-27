@@ -129,3 +129,9 @@
     - In prob. IR, you score queries not by cosine similarity and tf-idf in a vector space, but instead with a formula derived from probability theory
     - Some people have changed an existing vector space system by adopting term weighting formulas from prob. models
 
+### 11.4.2 Tree-structured dependencies between terms
+
+- Let's remove the assumption that terms are independent, which is very far from true in practice.
+- Tree structure of term dependencies: Each term can be directly dependent on only one other term
+- Tree Augmented Naive Bayes Model
+
