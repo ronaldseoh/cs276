@@ -135,3 +135,9 @@
 - Tree structure of term dependencies: Each term can be directly dependent on only one other term
 - Tree Augmented Naive Bayes Model
 
+### 11.4.3 Okapi BM25: a non-binary model
+
+- The BIM was originally designed for short catalog records and abstracts of fairly consistent length
+- For more modern full-text searches, we need to consider term frequencies and document length
+- *The BM25 weighting scheme (Okapi weighting)*
+
