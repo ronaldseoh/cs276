@@ -1,2 +1,5 @@
 .DS_Store
 .ipynb_checkpoints
+__pycache__
+week04/pa1/pa1-data
+*.zip
