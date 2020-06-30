@@ -25,3 +25,17 @@
 - Reuters-21578 and Reuters-RCV1
 - 20 Newsgroups
 
+## 8.3 Evaluation of unranked retrieval sets
+
+- Most frequent and basic measures: *Precision* and *Recall*
+- Accuracy: Not an appropriate measure for IR problems
+    - The data is extremely skewed: Normally over 99.9% of the documents are in the nonrelevant category
+    - Trying to label some documents as relevant will almost always lead to a high rate of false positives
+- But users are assumed to have a certain tolerance for seeing some false positives, as long as they get some useful information.
+- The advantage of using precision and recall: one is more important than the other in many circumstances.
+- You can always get a recall of `1` by retrieving *all* documents for all queries.
+- Precision usually decreases as the number of documents retrieved is increased.
+- In general, we want to get some amount of recall while tolerating only a certain percentage of false positives.
+- *F measure*: The weighted harmonic mean of precision and recall
+    - $F = \frac{1}{\alpha \frac{1}{P} + (1-\alpha) \frac{1}{R}}= \frac{(\beta^2 + 1)PR}{\beta^2 P + R}$ where $\beta^2 = \frac{1-\alpha}{\alpha}$
+    - Balanced F measure $F_1$: Equal weights; $\alpha=\frac{1}{2}$ or $\beta=1$.
