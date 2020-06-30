@@ -14,3 +14,14 @@
 - We will assume a binary decision of relevance.
 - Wrong to report results on a test collection after tuning the parameters against it: Need to use one or more *development test collections* instead for tuning
 
+## 8.2 Standard test collections
+
+- Focus particularly on test collections for *ad hoc information retrieval system*
+- The Cranfield collection
+- TREC
+- GOV2
+- NTCIR: East Asian language and cross-language information retrieval
+- CLEF
+- Reuters-21578 and Reuters-RCV1
+- 20 Newsgroups
+
