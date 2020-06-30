@@ -39,3 +39,8 @@
 - *F measure*: The weighted harmonic mean of precision and recall
     - $F = \frac{1}{\alpha \frac{1}{P} + (1-\alpha) \frac{1}{R}}= \frac{(\beta^2 + 1)PR}{\beta^2 P + R}$ where $\beta^2 = \frac{1-\alpha}{\alpha}$
     - Balanced F measure $F_1$: Equal weights; $\alpha=\frac{1}{2}$ or $\beta=1$.
+    - $\beta < 1$ emphasize precision while $\beta > 1$ emphasize recall.
+- Why harmonic mean?: We can reach the arithmetic mean of 50% when we get 100% recall by retrieving all documents for all queries
+    - However, assuming 1 document in 10,000 is actually relevant, the harmonic mean would be 0.02%
+    - The harmonic mean is always less than or equal to the arithmetic mean and geometric mean.
+    - *When the values of two numbers differ greatly, the harmonic mean is closer to their minimum than to their arithmetic mean*.
