@@ -49,10 +49,43 @@
 
 - Previously mentioned evaluation measures are computed using unordered set of documents
 - We need to extend these to evaluate the *ranked* retrieval results.
-- Precision-Recall Curve: Distinctive saw-tooth shape; If the $(k+1)$-th document retrieved is nonrelevant then recall is the same as for the top `k` documents, but precision has dropped.
+- *Precision-Recall Curve*: Distinctive saw-tooth shape; If the $(k+1)$-th document retrieved is nonrelevant then recall is the same as for the top `k` documents, but precision has dropped.
     - If it is relevant, then both precision and recall increase, and the curve jags up and to the right.
-    - *Interpolated precision* $p_{interp}$ at a certain recall level $r$: The *highest* precision found for any recall level $r' \geq r$; $\max_{r' \geq r} p(r')$
-- 11-point interpolated average precision
+    - **Interpolated precision** $p_{interp}$ at a certain recall level $r$: The *highest* precision found for any recall level $r' \geq r$; $\max_{r' \geq r} p(r')$
+- **11-point interpolated average precision**
     1. For each information need in the *test collection*, measure interpolated precisions at the 11 recall levels: $0.0, 0.1, 0.2, \cdots, 1.0$.
     2. At each recall level, calculate the arithmetic mean of all the interpoloated precisions.
-- Mean Average Precision (MAP)
+- **Mean Average Precision (MAP)**: Have especially good discrimination and stability
+    - For a *single* information need, *Average Precision* is the average of the precision value obtained for the set of top $k$ documents existing, after each relevant document is retrieved.
+    - Then MAP is the average of average precisions over information needs.
+    - $\text{MAP}(Q) = \frac{1}{\lvert Q \rvert} \sum_{j=1}^{\lvert Q \rvert} \frac{1}{m_j} \sum_{k=1}^{m_j} \text{Precision}(R_{jk})$
+    - When a relevant document is not retrieved at all, the precision value would be 0.
+    - For a single information need, the average precision approximate the area under the uninterpolated precision-recall curve
+    - SO the MAP is roughly the *average area* under the precision-recall curve, for a set of queries.
+    - Since the MAP for a test collection is the arithmetic mean of average precision values of individual information needs, this has the effect of weighting each information need *equally*.
+    - There is normally more agreement in MAP for a particular information need across systems, than for MAP scores for different information needs for the same system.
+        - A set of test information needs must be large and diverse enough to be representative of system effectiveness across diffferent queries.
+- **Precision at $k$**: Measuring precision at fixed low levels of retrieved results
+    - Least stable and does not average well, as the total number of relevant documents for a query has a strong influence on precision at $k$.
+- **R-precision**: Kinda like Precision at $k$
+    - Have a some known set of relevant documents called $rel$: This set may not be exactly complete.
+        - This allows us to adjust for the actual size of relevant documents, in contrast to precision at $k$ with a fixed size
+    - Obtain top $\lvert rel \rvert$ results from the system.
+    - If the total of `r` results are found to be relevant, then
+        - R-precision is $\frac{r}{\lvert rel \rvert}$.
+        - Note that recall is also $\frac{r}{\lvert rel \rvert}$, hence R-precision is identical to the *break-even point*.
+    - Somewhat unclear why you should be interested in break-even point rather than the point which maximizes F measure or other relevant points.
+    - Empirically, R-precision is highly correlated with MAP.
+- **ROC Curve**: Plots the true positive rate against *false positive rate*
+    - For a good system, the graph climbs steeply on the left side.
+    - Specificity (True negative rate?) was not seen as very useful notion as the value would be always almost 1 for all information needs.
+        - The 'interesting' part of precision-recall curve is $0 < \text{recall} < 0.4$.
+    - Report the area under the ROC curve
+- **Normalized Discounted Cumulative Gain (NDCG)**: Often employed with ML approaches to ranking
+    - Designed for non-binary notions of relevance
+    - Evaluated over some number $k$ of top results
+    - For a set of queries $Q$, let $R(j,d)$ be the relevance score given to document $d$ for query $j$.
+    - $NDCG(Q, k) = \frac{1}{\lvert Q \rvert} \sum_{j=1}^{\lvert Q \rvert} Z_{kj} \sum_{m=1}^k \frac{2^{R(j,m)}-1}{\log_{2}(1+m)}$
+        - $Z_{kj}$ is a normalization factor to make the perfect NDCG at $k$ for a single query $j$ to be 1
+        - For queries for which $k' < k$ documents are retrieved, the last summation is done up to $k'$.
+
