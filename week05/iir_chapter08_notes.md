@@ -44,3 +44,15 @@
     - However, assuming 1 document in 10,000 is actually relevant, the harmonic mean would be 0.02%
     - The harmonic mean is always less than or equal to the arithmetic mean and geometric mean.
     - *When the values of two numbers differ greatly, the harmonic mean is closer to their minimum than to their arithmetic mean*.
+
+## 8.4 Evaluation of ranked retrieval results
+
+- Previously mentioned evaluation measures are computed using unordered set of documents
+- We need to extend these to evaluate the *ranked* retrieval results.
+- Precision-Recall Curve: Distinctive saw-tooth shape; If the $(k+1)$-th document retrieved is nonrelevant then recall is the same as for the top `k` documents, but precision has dropped.
+    - If it is relevant, then both precision and recall increase, and the curve jags up and to the right.
+    - *Interpolated precision* $p_{interp}$ at a certain recall level $r$: The *highest* precision found for any recall level $r' \geq r$; $\max_{r' \geq r} p(r')$
+- 11-point interpolated average precision
+    1. For each information need in the *test collection*, measure interpolated precisions at the 11 recall levels: $0.0, 0.1, 0.2, \cdots, 1.0$.
+    2. At each recall level, calculate the arithmetic mean of all the interpoloated precisions.
+- Mean Average Precision (MAP)
