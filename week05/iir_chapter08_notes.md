@@ -146,3 +146,17 @@
 - A/B testing
     - Change exactly one thing and evaluate measures on randomly selected users
 
+## 8.7 Results snippets
+
+- Wish to present a results list *informative enough* for the users to do final ranking of the documents
+- *Snippet*: A short summary of the document, designed to allow the user to decide its relevance
+    - Title
+    - Short summary: How to design automatically extract this?
+- *Static* summaries and *dynamic* (query-dependent) summaries
+    - Dynamic summaries attempt to explain *why* a particular document was retrieved
+- Better ways to do text summarization: How to choose good sentences?
+    - Combine positional factors (first and last sentences, etc.) and content factors (emphasizing sentences with key terms that have low DF but high frequency and good distribution with the document)
+    - Or doing full text generation
+- Keyword-in-context (KWIC) snippets: Summaries that contain one or several of the query terms
+- Dynamic summaries are generated in conjunction with scoring: users prefer snippets that read well because they contain complete phrases.
+- Dynamic summaries make IR system designs complicated
