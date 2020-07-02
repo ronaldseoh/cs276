@@ -125,3 +125,24 @@
     - Maximizing marginal relevance requires returning documents that exhibit diversity and novelty.
         - Using distinct facts or entities as evaluation units? - directly measures true utility to the user but harder to create a test collection
 
+## 8.6 A broader perspective: System quality and user utility
+
+- Despite formal evaluation measures, we are ultimately interested in how *satisfied* each users are with the results the system gives?
+- Could do user studies
+- Other system aspects that allow quantitative evaluation and the issue of user utility
+
+### 8.6.1 System issues
+
+- How fast does it index/search?
+- Query language expressiveness
+- How large is its document collection?
+
+### 8.6.2 User utility
+
+- User happiness is elusive to measure
+
+### 8.6.3 Refining a deployed system
+
+- A/B testing
+    - Change exactly one thing and evaluate measures on randomly selected users
+
