@@ -30,3 +30,12 @@
 2. Only consider documents containing *many* (sometimes all) of the query terms.
     - We might end up with fewer than $K$ candidates.
 
+### 7.1.3 Champion lists
+
+- *Champion list*: For each term $t$ in the dictionary, precompute the set of $r$ documents with the highest weights for $t$.
+    - $r$ should be chosen in advance.
+- Then make the set $A$ the *union* of the champion lists for each of the terms comprising $q$, and restrict cosine computation to only the documents in $A$.
+    - Hence $r$ should be fairly larger than $K$.
+    - One issue is that $r$ would be set during the index construction, while $K$ is application dependent.
+- No need to set the same value of $r$ for all terms: we might set it higher for rarer terms.
+
