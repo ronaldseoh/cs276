@@ -22,3 +22,11 @@
 - Many of these heuristics will require many parameter tunings.
 - These are for free text queries and not for Boolean or phrase queries.
 
+### 7.1.2 Index elimination
+
+- For a multi-term query $q$, we already consider only the documents containing at least one of the query terms. We could use more heuristics.
+1. Only consider documents containing terms with *high enough idf*: The postings lists of low idf terms are generally long. Basically we now consider them as stop words, they end up not contributing anything to the scoring.
+    - Cutoff threshold can be adapted in a *query-dependent manner*.
+2. Only consider documents containing *many* (sometimes all) of the query terms.
+    - We might end up with fewer than $K$ candidates.
+
