@@ -39,3 +39,16 @@
     - One issue is that $r$ would be set during the index construction, while $K$ is application dependent.
 - No need to set the same value of $r$ for all terms: we might set it higher for rarer terms.
 
+### 7.1.4 Static quality scores and ordering
+
+- **Static quality score**: A measure of quality $g(d)$ for each document $d$ that is query-*independent* and thus *static*.
+    - A number between 0 and 1
+- Then the *net score* for a document $d$ is some combination of $g(d)$ together with the query-dependent score.
+- Using these static quality scores, we could create postings lists by *decreasing* value of $g(d)$ and perform the postings intersection.
+    - Note that what we needed for postings intersection was a *single common ordering* between all postings.
+- *Global champion list*: Extension of a regular champion list. Maintain the list with the highest values for $g(d) + \text{tf-idf}_{t,d}$.
+- Maintaining *two* postings lists consisting of *disjoint* sets of documents
+    - *High*: the list containing the $m$ documents with the highest tf values for $t$.
+    - *Low*: the list containing *all other* documents containing $t$.
+    - Then we can first try scanning only through high lists of all query terms. We go through low lists only if we don't get $K$ documents.
+
