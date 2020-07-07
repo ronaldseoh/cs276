@@ -77,3 +77,13 @@
     - In the standard version above, $b_1=b_2=1$.
     - Raising $b_1$ or $b_2$ higher increases the likelihood of finding $K$ documents that are more likely to be in the set of true top-scoring $K$ documents.
 
+## 7.2 Components of an information retrieval system
+
+- A rudimentary search system that retrieves and scores documents.
+- We do not restrict ourselves to vector space retrievals.
+
+### 7.2.1 Tiered indexes
+
+- *Tiered indexes*: If we fail to get $K$ results from tier 1, query processing falls back to tier 2, and so on.
+    - For example: Tier 1 have a *tf* threshold of 20, and 2 have 10, and so on.
+
