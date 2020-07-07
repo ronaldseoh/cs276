@@ -62,3 +62,18 @@
     - When we process a query, we can also determine whether to continue processing the remaining query terms after looking at the changes from the previous query term processed.
 - *Impact ordering*: Ordering by something other than term frequencies
 
+### 7.1.6 Cluster pruning
+
+- Consider only documents *in a small number of clusters* as candidates
+    1. *Leaders*: Pick $\sqrt{N}$ documents at random from the collection.
+    2. *Followers*: For each document that is not a leader, we compute its nearest leader.
+        - The expected number of followers for each leader is $\approx N / \sqrt{N} = \sqrt{N}$.
+    3. Given a query $q$, find the leader $L$ that is closest to $q$. This entails computing cosine similarities from $q$ to each of the $\sqrt{N}$ leaders.
+    4. The candidate set $A$ consists of $L$ together with its followers.
+- Using randomly chosen leaders for clustering is fast and more likely to reflect *the distribution of the document vectors in the vector space.
+- Variations: additional parameters of positive integers $b_1$ and $b_2$. 
+    - Attach each follower to $b_1$ closest leaders instead of a single leader
+    - At query time, we consider the $b_2$ leaders closest to the query $q$.
+    - In the standard version above, $b_1=b_2=1$.
+    - Raising $b_1$ or $b_2$ higher increases the likelihood of finding $K$ documents that are more likely to be in the set of true top-scoring $K$ documents.
+
