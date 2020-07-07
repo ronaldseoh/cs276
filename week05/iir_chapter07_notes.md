@@ -87,3 +87,17 @@
 - *Tiered indexes*: If we fail to get $K$ results from tier 1, query processing falls back to tier 2, and so on.
     - For example: Tier 1 have a *tf* threshold of 20, and 2 have 10, and so on.
 
+### 7.2.2 Query-term proximity
+
+- Especially for free text queries on the web, users prefer to find documents in which *most or all* of the query terms *appear close to each other*.
+    - Because this is the evidence that the document has text *focused on their query intent*.
+- Consider a query with 2 or more query terms, $t_1, t_2, \cdots, t_k$.
+- Let $\omega$ be the *width* of the smallest window in a document $d$ that contains *all the query terms*, measured by the number of words in the window.
+- The smaller that $\omega$ is, the better that $d$ matches the query.
+    - In case where the document does not contain all of the query terms, we can set $\omega$ to be some enormous number.
+    - Also consider variants in which only words that are *not stop words* are considered in computing $\omega$.
+- Such proximity-weighted scoring functions are a departure from pure cosine similarity and closer to the *soft conjunctive* semantics that web search engines use.
+- How should we set $\omega$?
+    - Hard coding
+    - Machine learning
+
