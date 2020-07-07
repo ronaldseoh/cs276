@@ -52,7 +52,7 @@
     - *Low*: the list containing *all other* documents containing $t$.
     - Then we can first try scanning only through high lists of all query terms. We go through low lists only if we don't get $K$ documents.
 
-## 7.1.5 Impact ordering
+### 7.1.5 Impact ordering
 
 - A technique for when the postings are not all ordered by a common ordering, thereby precluding a concurrent traversal (which was possible by traversing all of the query terms' postings lists and scoring each document as we encounter it)
 - *Term*-at-a-time scoring instead of document-at-a-time scoring.
