@@ -101,3 +101,21 @@
     - Hard coding
     - Machine learning
 
+### 7.2.3 Designing parsing and scoring functions
+
+- Common search interfaces tend to mask query operators and encourage free text queries
+    - Then how should we combine query features?
+    - The answer depends on
+        - The user population
+        - The query population
+        - The collection of documents
+- Typically, a *query parser* is used to translate the user-specified keywords into a query with various operators
+    - Sometimes, this execution can entail *multiple queries* against the underlying indexes
+    1. Run the user-generated query string as a phrase query, rank them with vector space scoring, treating the query as a vector containing all query terms.
+    2. If the step 1 contained too few documents, run phrase queries of length one term shorter.
+    3. If we didn't get enough documents in previous steps, then run the vector space query consisting of individual query terms.
+- Scores must combine contributions from vector space scoring, static quality, proximity weighting and potentially other factors
+    - Particularly since a document may appear in the lists from multiple steps.
+    - Need an aggregate scoring function that accumulates evidence of a document's relevance from multiple sources.
+    - The answer depends on the setting (enterprise search vs. web search)
+
