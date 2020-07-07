@@ -52,3 +52,13 @@
     - *Low*: the list containing *all other* documents containing $t$.
     - Then we can first try scanning only through high lists of all query terms. We go through low lists only if we don't get $K$ documents.
 
+## 7.1.5 Impact ordering
+
+- A technique for when the postings are not all ordered by a common ordering, thereby precluding a concurrent traversal (which was possible by traversing all of the query terms' postings lists and scoring each document as we encounter it)
+- *Term*-at-a-time scoring instead of document-at-a-time scoring.
+- Idea: Order the documents in the postings list of term $t$ by *decreasing* order of $tf_{t,\mathbf{d}}$.
+    - When going through each postings list for a term $t$, stop after considering a fixed number of documents or after the value of $tf_{t,d}$ has dropped below a threshold.
+    - When accumulating scores, we consider each query terms in decreasing order of *idf*, so that the query terms likely to contribute *the most* to the final scores are considered first.
+    - When we process a query, we can also determine whether to continue processing the remaining query terms after looking at the changes from the previous query term processed.
+- *Impact ordering*: Ordering by something other than term frequencies
+
