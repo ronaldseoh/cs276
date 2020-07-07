@@ -119,3 +119,7 @@
     - Need an aggregate scoring function that accumulates evidence of a document's relevance from multiple sources.
     - The answer depends on the setting (enterprise search vs. web search)
 
+### 7.2.4 Putting it together
+
+- Brief review of how the various pieces fit together into an overall system.
+
