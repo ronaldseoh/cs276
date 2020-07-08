@@ -123,3 +123,20 @@
 
 - Brief review of how the various pieces fit together into an overall system.
 
+## 7.3 Vector space scoring and query operator interaction
+
+- How the vector space scoring model relates to the query operators
+    - in terms of the *expressiveness* of queries
+    - in terms of the index that supports the evaluation
+- Classic interpretation of free text queries: At least one of the query terms be present in any retrieved document
+- More recently: A set of terms carries the semantics of a *conjunctive* query that only retrieves documents containing *all or most* query terms
+- *Boolean retrieval*: While a vector space index can used to answer Boolean queries, the reverse is not true as a Boolean index does not carry any weight information.
+- *Wildcard queries*: If a search engine allows a user to specify a wildcard operator as part of a free text query, we may interpret the wildcard component query as spawning multiple terms in the vector space.
+    - All of those terms would be added to the query vector.
+    - A document containing multiple of the terms is likely to be scored higher than another containing fewer of them.
+    - The exact score ordering will depend on the relative weights of each term in matching documents
+- *Phrase queries*: An index built for vector space retrieval cannot be used directly for phrase retrieval
+    - Even if we model biwords as terms, the weights on different axes wouldn't be independent
+    - Notions such as idf would have to be extended to such biwords
+    - We could use vector space retrieval to identify documents heavy in individual query terms, but with no way of prescribing that they occur consecutively.
+        - Phrase retrieval can do exactly that, but without any indication of the relative frequency or weight in this phrase.
