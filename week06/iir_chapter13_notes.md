@@ -37,3 +37,15 @@
         - *One-of* problem: A document belonging to exactly one class
 - When we use the training set to learn a classifier for test data, we make the assumption that training data and test data are similar or from the same distribution.
 
+## 13.2 Naive Bayes text classification
+
+- *Multinomial Naive Bayes*: $P(c \mid d) \propto P(c) \prod_{1 \leq k \leq n_d} P(t_k \mid c)$.
+    - $P(t_k \mid c)$: A measure of how much $t_k$ contributes that $c$ is the correct class.
+    - $n_d$: The number of tokens in $d$ (which are part of the vocabulary) that we use for classification.
+- If a document's terms do not provide clear evidence for one particular class over another, then
+    - we choose the one that has a higher prior probability.
+- *Maximum a Posteriori (MAP)* class: The best class in NB classification is the most *likely* class
+    - $c_{\text{map}} = arg\,max_{c \in \mathcal{C}} \hat{P}(c \mid d) = arg\,max_{c \in \mathcal{C}} \hat{P}(c) \prod_{1 \leq k \leq n_d} \hat{P}(t_k \mid c)$
+- Multiplying many probabilities could cause a floating point underflow; hence it is better to add up logarithms of probabilities instead
+    - The logarithm function is monotonic.
+    - $c_{\text{map}} = arg\,max_{c \in \mathcal{C}} \lbrack \log \hat{P}(c) + \sum_{1 \leq k \leq n_d} \log \hat{P} (t_k \mid c) \rbrack$
