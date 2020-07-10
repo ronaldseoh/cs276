@@ -46,6 +46,26 @@
     - we choose the one that has a higher prior probability.
 - *Maximum a Posteriori (MAP)* class: The best class in NB classification is the most *likely* class
     - $c_{\text{map}} = arg\,max_{c \in \mathcal{C}} \hat{P}(c \mid d) = arg\,max_{c \in \mathcal{C}} \hat{P}(c) \prod_{1 \leq k \leq n_d} \hat{P}(t_k \mid c)$
-- Multiplying many probabilities could cause a floating point underflow; hence it is better to add up logarithms of probabilities instead
+- Multiplying many probabilities could cause a floating point underflow; hence it is better to add up *logarithms* of probabilities instead
     - The logarithm function is monotonic.
     - $c_{\text{map}} = arg\,max_{c \in \mathcal{C}} \lbrack \log \hat{P}(c) + \sum_{1 \leq k \leq n_d} \log \hat{P} (t_k \mid c) \rbrack$
+- How do we estimate the parameters $\hat{P}(c)$ and $\hat{P}(t_k \mid c)$?
+    1. Maximum Likelihood Estimate (MLE):
+        - $\hat{P}(c) = \frac{N_c}{N}$
+        - $\hat{P}(t_k \mid c) = \frac{T_{ct}}{\sum_{t' \in V} T_{ct'}}$
+        - We have a positional independence assumption: $\hat{P}(t_{k_1} \mid c) = \hat{P}(t_{k_2} \mid c)$ for any $k_1$ and $k_2$.
+    - The problem: Zero for a term-class combination that did not occur in the training data
+        - *Sparseness*: The training data are never large enough to represent the frequency of rare events adequately.
+    - *Laplace smoothing*: Simply add 1 to each count; can be interpreted as a uniform prior (of the term occurrence) and then updated as evidence from training data comes in
+        - $\hat{P}(t \mid c) = \frac{T_{ct} + 1}{(\sum_{t' \in V} T_{ct'}) + B'}$, where $B=\lvert V \rvert$ is the number of terms in the vocabulary.
+- Time complexity of NB
+    - Computing the parameters: $\Theta(\lvert \mathcal{C} \rvert \lvert V \rvert)$ as the set of parameters consists of $\lvert \mathcal{C} \rvert \lvert V \rvert$ additional parameters and $\lvert C \rvert$ priors.
+    - Preprocessing for parameters computation: can be done in *one pass* through the training data. $\Theta(\lvert \mathcal{D} \rvert L_{ave})$.
+        - $\lvert \mathcal{D} \rvert$ is the number of documents
+        - $L_{ave}$ is the average length of a document
+    - `ApplyMultinomialNB`:
+        - $L_a$: The number of tokens, $M_a$: The number of types, in the test document
+        - The version we have in the text: $\Theta(\lvert \mathcal{C} \rvert L_a)$
+        - But we could modify this to be $\Theta(L_a + \lvert \mathcal{C} \rvert M_a)$
+        - And $\Theta(L_a + \lvert \mathcal{C} \rvert M_a) = \Theta(\lvert \mathcal{C} \rvert M_a)$ as $L_a < b \lvert C \rvert M_a$ for a fixed constant $b$.
+    - Since $\lvert \mathcal{C} \rvert \lvert V \rvert < \lvert \mathcal{D} \rvert L_{ave}$, both training and testing complexity are linear in the time it takes to *scan the data*.
