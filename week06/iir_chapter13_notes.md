@@ -69,3 +69,12 @@
         - But we could modify this to be $\Theta(L_a + \lvert \mathcal{C} \rvert M_a)$
         - And $\Theta(L_a + \lvert \mathcal{C} \rvert M_a) = \Theta(\lvert \mathcal{C} \rvert M_a)$ as $L_a < b \lvert C \rvert M_a$ for a fixed constant $b$.
     - Since $\lvert \mathcal{C} \rvert \lvert V \rvert < \lvert \mathcal{D} \rvert L_{ave}$, both training and testing complexity are linear in the time it takes to *scan the data*.
+
+## 13.3 The Bernoulli model
+
+- Instead of the multinomial model, the multivariate Bernoulli model
+    - An indicator for each term of the vocabulary, either 1 indicating presence of the term in the document or 0 indicating absence
+- Estimates $\hat{P}(t \mid c)$ as the fraction of *documents* of class $c$ that contain term $t$, not the number of tokens
+- Makes many mistakes when classifying long documents.
+- Unlike the multinomial model, the probability of nonoccurrence is factored in when computing $P(c \mid d)$.
+
