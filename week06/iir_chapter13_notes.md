@@ -119,3 +119,19 @@
 ### 13.4.1 A variant of the multinomial model
 
 - Represent a document as an $M$-dimensional vector of counts $<tf_{t_1, d}, \cdots, tf_{t_M, d}>$
+
+## 13.5 Feature Selection
+
+- Feature selection: Selecting a subset of the terms (in the training set) to be used as features in text classification
+    - Makes training/applying more fficient by decreasing the size of the effective vocabulary
+    - Eliminates *noise* features
+- Feature selection can be thought of as replacing a complex classifier with a simpler one.
+- For each terms of the vocabulary
+    - Compute a utility measure $A(t, c)$
+    - Select the $k$ terms that have the highest values of $A(t, c)$
+- Three different measures of utility
+    - *Mutual information*: $A(t, c) = I(U_t; C_c)$
+    - *$\chi^2$ test*: $A(t, c) = X^2(t,c)$
+    - *Frequency*: $A(t, c) = N(t, c)$
+- Of the two NB models, the Bernoulli model is particularly sensitive to noise features.
+    - This section is relevant for two-class classification
