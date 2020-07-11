@@ -78,3 +78,44 @@
 - Makes many mistakes when classifying long documents.
 - Unlike the multinomial model, the probability of nonoccurrence is factored in when computing $P(c \mid d)$.
 
+## 13.4 Properties of Naive Bayes
+
+- In both models, we assigned classes to documents based on the maximum a posteriori probability
+    - $c_{map} = arg\,max_{c \in \mathcal{C}} P(c \mid d) = arg\,max_{c \in \mathcal{C}} \frac{P(d \mid c) P(c)}{P(d)} = arg\,max_{c \in \mathcal{C}} P(d \mid c) P(c)$
+    - $P(d)$ is dropped as it's same for all classes.
+- We can think of the equation above as a description of the process of generating text.
+    1. We first choose class $c$ with probability $P(c)$.
+    2. We generate the model following one of the probabilities below:
+        - Multinomial: $P(d \mid c) = P(<t_1, \cdots, t_k, \cdots, t_{n_d}> \mid c)$
+        - Bernoulli: $P(d \mid c) = P(<e_1, \cdots, e_i, \cdots, e_M> \mid c)$
+- Naive Bayes *conditional independence assumption*
+    - Multinomial: $P(d \mid c) = P(<t_1, \cdots, t_k, \cdots, t_{n_d}> \mid c) = \prod_{1 \leq k \leq n_d} P(x_k = t_k \mid c)$
+        - $X_k$ is the random variable for position $k$ and $P(x_k = t_k \mid c)$ is the probability of the term $t$ occurring in position $k$, inside a document of class $c$.
+    - Bernoulli: $P(d \mid c) = P(<e_1, \cdots, e_i, \cdots, e_M> \mid c) = \prod_{1 \leq i \leq M} P(U_i = e_i \mid c)$
+        - $U_i$ is the random variable for vocabulary term $i$ and $P(U_i = e_i \mid c)$ is the probability that the term $t_i$ will occur in a document of class $c$, regardless of positions and the number of times it occur.
+- Position Independence for Multinomial NB:
+    - One single distribution for the conditional probabilities for a term, regardless of its position within a document.
+        - $P(X_{k_1} = t \mid c) = P(X_{k_2} = t \mid c)$
+    - Equivalent to adopting the bag of words model
+- With the two independence assumptions, we only need to estimate $\Theta(M \lvert \mathcal{C} \rvert)$ parameters.
+- For a completely specified document generation model, we would have to define a distribution $P(n_d \mid c)$ over *lengths*.
+    - Without this, our multinomial model is a *token* generation model rather than a document generation model.
+- The probability estimates of NB are of low quality, its classification decisions are surprisingly good.
+    - The winning class in NB classification usually has a much larger probability than the other classes.
+    - Correct estimation implies accurate prediction, but *accurate prediction does not imply correct estimation*.
+- NB excels when
+    - There are many *equally* important features that jointly contribute to the classification decision.
+    - Robust to noise features
+    - Robust to *concept drift* - the gradual change over time of the concept underlying a class. (e.g. US president)
+        - Unlike k-NNs, which can be carefully tuned to idiosyncratic properties of a *particular time period*.
+        - Bernoulli model is particularly robust to this.
+        - Decent performance when using fewer than a dozen terms, since the most important indicators for a class are less likely to change.
+        - So a model that only relies on these features is more likely to maintain a certain level of accuracy despite concept drift.
+    - Efficiency: Training and classification can be accomplished with one pass over data.
+        - Baseline in text classification research
+        - Good if squeezing out a few more points of accuracy is not very important
+        - Good if the training data is huge and we could learn more by training on a lot of data rather than a better classififer on a small dataset
+
+### 13.4.1 A variant of the multinomial model
+
+- Represent a document as an $M$-dimensional vector of counts $<tf_{t_1, d}, \cdots, tf_{t_M, d}>$
