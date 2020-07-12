@@ -135,3 +135,21 @@
     - *Frequency*: $A(t, c) = N(t, c)$
 - Of the two NB models, the Bernoulli model is particularly sensitive to noise features.
     - This section is relevant for two-class classification
+
+### 13.5.1 Mutual information
+
+- The expected mutual information of term $t$ and class $c$
+    - How much information the presence or absence of a term contributes, to making the correct decision on $c$.
+    - $I(U_t; C_c) = \sum_{e_t \in \lbrack 1,0 \rbrack} \sum_{e_c \in \lbrack 1,0 \rbrack} P(U = e_t, C=e_c) \log_2 \frac{P(U=e_t, C=e_c)}{P(U=e_t) P(C=e_c)}$
+        - $U_t$ is a random variable for $e_t=1$ (contains $t$) / $e_t=0$ (does not contain $t$)
+        - $C_c$ is a random variable for $e_c=1$ (the document is in $c$) / $e_c=0$ (the document is *not* in $c$)
+- In information-theoretic sense, mutual information measures how much information a term contains about the class.
+    - If a term's distribution is the same in the class *as in the collection as a whole*, then $I(U; C) = 0$.
+    - MI reaches its maximum value if the term is a perfect indicator for class membership
+        - If the term is present in a document iff the document is in the class.
+- Keeping the informative terms and eliminating the non-informative ones tends to reduce noise and improve the classifier's accuracy.
+- Number of features selected Performance Comparison on `REUTERS-RCV1`
+    - Compared with $F_1$ at 132,776 features, and at 10-100 features, MI feature selection improves the multinomial model by about 0.1, and the Bernoulli model by more than 0.2.
+    - For the Bernoulli model, $F_1$ peaks early, at 10 features selected.
+    - For the Multinomial model, around 100 features
+        - Better at a larger number of features as it takes into account the number of occurrences
