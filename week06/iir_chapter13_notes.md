@@ -140,7 +140,7 @@
 
 - The expected mutual information of term $t$ and class $c$
     - How much information the presence or absence of a term contributes, to making the correct decision on $c$.
-    - $I(U_t; C_c) = \sum_{e_t \in \lbrack 1,0 \rbrack} \sum_{e_c \in \lbrack 1,0 \rbrack} P(U = e_t, C=e_c) \log_2 \frac{P(U=e_t, C=e_c)}{P(U=e_t) P(C=e_c)}$
+    - $I(U_t; C_c) = \sum_{e_t \in \lbrace 1,0 \rbrace} \sum_{e_c \in \lbrace 1,0 \rbrace} P(U = e_t, C=e_c) \log_2 \frac{P(U=e_t, C=e_c)}{P(U=e_t) P(C=e_c)}$
         - $U_t$ is a random variable for $e_t=1$ (contains $t$) / $e_t=0$ (does not contain $t$)
         - $C_c$ is a random variable for $e_c=1$ (the document is in $c$) / $e_c=0$ (the document is *not* in $c$)
 - In information-theoretic sense, mutual information measures how much information a term contains about the class.
@@ -153,3 +153,21 @@
     - For the Bernoulli model, $F_1$ peaks early, at 10 features selected.
     - For the Multinomial model, around 100 features
         - Better at a larger number of features as it takes into account the number of occurrences
+
+### 13.5.2 $\chi^2$ Feature selection
+
+- $\chi^2$ test is applied to test the *independence* of two events
+    - Two events $A$ and $B$ are defined to be independent if $P(AB) = P(A) P(B)$ (or equivalently $P(A \mid B) = P(A)$ and $P(B \mid A) = P(B)$)
+    - In feature selection, the two events are 1) occurrence of the term and 2) occurrence of the class.
+- We rank terms with respect to the following quantity:
+    - $X^2(\mathcal{D}, t, c) = \sum_{e_t \in \lbrace 0,1 \rbrace} \sum_{e_c \in \lbrace 0,1 \rbrace} \frac{(N_{e_t e_c} - E_{e_t e_c})^2}{E_{e_t e_c}}$
+    - $N$ is the *observed* frequency in $\mathcal{D}$
+    - $E$ is the *expected* frequency (assuming that term and class are independent)
+- $X^2$ is a measure of how much expected counts $E$ and observed counts $N$ *deviate* from each other.
+    - A high value indicates that the hypothesis of independence (that the two counts are similar) is *incorrect*
+    - For example, $X^2 = 284 > 10.83$, so there is a 0.001 chance of being wrong. Equivalently, statistically significant at the 0.001 level.
+    - We can make this inference because, if the two events are independent, then $X^2 \sim \chi^2$, where $\chi^2$ is the $\chi^2$ distribution.
+- From a statistical point of view, $\chi^2$ feature selection is problematic.
+    1. For a test with one degree of freedom, the so-called Yates correction should be used, which makes it harder to reach statistical significance.
+    2. Whenever a statistical test is used multiple times, then the probability of getting *at least one* error increases.
+    3. However, it is still fine to find the *relative* importance of terms with this test, rather than to make statistical statements.
