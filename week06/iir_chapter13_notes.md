@@ -171,3 +171,15 @@
     1. For a test with one degree of freedom, the so-called Yates correction should be used, which makes it harder to reach statistical significance.
     2. Whenever a statistical test is used multiple times, then the probability of getting *at least one* error increases.
     3. However, it is still fine to find the *relative* importance of terms with this test, rather than to make statistical statements.
+
+### 13.5.3 Frequency-based feature selection
+
+- Select the terms that are most common *in the class*
+- Frequency can be either defined as *document* frequency or as *collection* frequency
+    - Document frequency more appropriate for the Bernoulli model
+    - Collection frequency for the multinomial model
+- Selects some frequent terms that have *no specific information* about the class
+    - For example, the days of the week (`Monday, Tuesday, ...`)
+- When many *thousands* of features are selected, then frequency-based feature selection often does well.
+    - If somewhat suboptimal accuracy is acceptable, then this could be a good alternative over more complex methods.
+
