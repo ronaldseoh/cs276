@@ -193,3 +193,14 @@
 - Classification accuracy often decreases when we use one common set
     - but even if it does, the gain in efficiency owing to a common document representation may be worth the loss in accuracy.
 
+### 13.5.5 Comparison of feature selection methods
+
+- Mutual information and $\chi^2$ methods are quite different
+    - The independence of term $t$ and class $c$ can sometimes be rejected with high confidence, even if $t$ carries little information about membership of a document in $c$.
+        - Particularly true for *rare terms*: A single occurrence of a term in particular class is not very informative, according to the information-theoretic definition of information.
+        - Because its criterion is significance, $\chi^2$ selects more rare terms (which are often less reliable indicators) than mutual information. But this does not mean that mutual information necessarily selects the terms that maximize *classification accuracy*.
+    - However, the *accuracy* of feature sets selected with the two methods does not seem to differ systematically.
+        - As long as all strong indicators and a large number of weak indicators are selected, accuracy is expected to be good.
+- All three methods we covered are *greedy* methods: They may select features that contribute *no incremental information* over previously selected features.
+    - Such redundancy can negatively impact accuracy
+    - However, non-greedy methods are rarely used due to their computational costs.
