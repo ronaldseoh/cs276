@@ -183,3 +183,13 @@
 - When many *thousands* of features are selected, then frequency-based feature selection often does well.
     - If somewhat suboptimal accuracy is acceptable, then this could be a good alternative over more complex methods.
 
+### 13.5.4 Feature selection for multiple classifiers
+
+- If we have a large number of classifiers within a single system, it is desirable to have a single set of features rather than different ones for each classifier.
+- One way: Compute the $X^2$ for each term (occurrence and non-occurrence) and each class; then select $k$ terms with the highest $X^2$
+- More commonly, feature selection statistics are first computed separately for each class on the two-class classification task $c$ versus $\bar{c}$ and then combined.
+    1. Compute a single figure of merit for each feature, averaging the values $A(t, c)$ for feature $t$ for example.
+    2. Select the top $k/n$ features for each of $n$ classifiers and then combines these $n$ sets into one global feature set.
+- Classification accuracy often decreases when we use one common set
+    - but even if it does, the gain in efficiency owing to a common document representation may be worth the loss in accuracy.
+
