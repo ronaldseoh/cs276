@@ -204,3 +204,21 @@
 - All three methods we covered are *greedy* methods: They may select features that contribute *no incremental information* over previously selected features.
     - Such redundancy can negatively impact accuracy
     - However, non-greedy methods are rarely used due to their computational costs.
+
+## 13.6 Evaluation of text classification
+
+- `Reuters-21578` collection: A set of 118 topic categories
+    - *ModApte Split*: Documents that were reviewed and assessed by a human indexer
+    - The distribution of documents in classes in *very* eneven: Some work evaluates only on the largest 10 classes
+- When we process a collection with several two-class classifiers, we often want to compute a single aggregate measure that combines the measures for individual classifiers.
+    - *Macroaveraging*: A simple average *over* classes; gives equal weight to *each class*
+    - *Microaveraging*: Pools per-document decisions across classes; gives equal weight to per-document classification decision.
+    - To get a sense of effectiveness on small classes, you should compute macroaveraged results.
+- Effectiveness of different classification methods varies from class to class
+- The average effectiveness of NB is uncompetitve with other methods, when trained and tested on *iid* data.
+    - However, these differences may often be invisible or even reverse themselves when working in the real world
+        - The training sample is drawn from a subset of the data to which the classifier will be applied
+        - The nature of the data drifts over time rather than being stationery (concept drift)
+        - There may be some errors in the data
+    - The ranking of classifiers ultimately depends on the class, the document collection, and the experimental setup.
+- Don't train on the test set
