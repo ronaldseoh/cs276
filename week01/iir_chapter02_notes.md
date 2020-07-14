@@ -37,7 +37,7 @@
     - Handling Hyphens: As a classification problem, or some heuristic rules
     - Whitespaces
     - Word segmentation: Heuristics, machine learning sequence models (trained over hand-segmented words)
-    - Alternatives: Do all indexing via just short subsequences of characters (character k-grams) - individual Chinese character has some semantic content
+    - Alternatives: Do all indexing via just short subsequences of characters (character $k$-grams) - individual Chinese character has some semantic content
 
 ### 2.2.2 Dropping common terms: stop words
 
@@ -88,14 +88,14 @@
 
 ## 2.3 Faster postings list intersection via skip pointers
 
-- Basic intersection operation of lists with the lengths of `m` and `n` takes `O(m+n)` time. Can we do better?
+- Basic intersection operation of lists with the lengths of $m$ and $n$ takes $O(m+n)$ time. Can we do better?
 - **Skip list**: Augment postings lists with *skip pointers* at indexing time - skip pointers are effectively shortcuts that allow us to avoid processing parts of the postings list *that will not figure in the search results*.
 - A number of variant versions of postings list intersection with skip pointers is possible, depending on *when exactly you check the skip pointer*.
 - Skip pointers will only be available for the original postings lists.
 - The presence of skip pointers only helps for `AND` queries, not for `OR` queries.
 - More skips means shorter skip spans, and that we are more likely to skip.
     - But it also means lots of comparisons to skip pointers, and lots of space storing skip pointers.
-- A simple heuristic: For a postings list of length `P`, use `sqrt(P)` evenly-spaced skip pointers.
+- A simple heuristic: For a postings list of length $P$, use $\sqrt{P}$ evenly-spaced skip pointers.
     - Ignores any details of the distribution of query terms.
 - Choosing the *optimal encoding* for an inverted index
     - Nowadays, CPUs are fast and disk is slow, so reducing disk postings list size dominates. However, if you're running a search engine with everything in memory then the equation changes again.
@@ -124,8 +124,8 @@
 - To process a phrase query, you still need to access the inverted index entries for each distinct term.
     - As before, you would start with *the least frequent term* and then work to further restrict the list of possible candidates.
     - During merge operation, you also need to check that their positions of appearance in the document are *compatible with the phrase query being evaluated*. This requires working out offsets between the words.
-- Because the number of items to check is now bounded not by the number of documents but by the total number of *tokens* in the document collection `T`.
-    - Or it's `Theta(T)` instead of `Theta(N)`.
+- Because the number of items to check is now bounded not by the number of documents ($N$) but by the total number of *tokens* in the document collection ($T$).
+    - Or it's $\theta(T)$ instead of $\theta(N)$.
     - Most applications have little choice but to accept this, since most users now expect to have the functionality of phrase and proximity searches.
     - Space implications:
         - The index size depends on the average document size. The average web page has less than 1000 terms, but others could easily reach 100,000 terms. 
