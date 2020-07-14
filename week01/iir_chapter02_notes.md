@@ -125,7 +125,7 @@
     - As before, you would start with *the least frequent term* and then work to further restrict the list of possible candidates.
     - During merge operation, you also need to check that their positions of appearance in the document are *compatible with the phrase query being evaluated*. This requires working out offsets between the words.
 - Because the number of items to check is now bounded not by the number of documents ($N$) but by the total number of *tokens* in the document collection ($T$).
-    - Or it's $\theta(T)$ instead of $\theta(N)$.
+    - Or it's $\Theta(T)$ instead of $\Theta(N)$.
     - Most applications have little choice but to accept this, since most users now expect to have the functionality of phrase and proximity searches.
     - Space implications:
         - The index size depends on the average document size. The average web page has less than 1000 terms, but others could easily reach 100,000 terms. 
