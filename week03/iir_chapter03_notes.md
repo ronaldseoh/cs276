@@ -123,7 +123,8 @@
 ### 3.3.4 $k$-gram indexes for spelling correction
 
 - Further limit the set of vocabulary terms to compute edit distances
-- Find terms that have many $k$-grams that share "most" $k$-grams with the query: For "reasonable definitions" of "many $k$-grams in common", we can simply do a *single* scan through the $k$-grams index for the *original* query $q$.
+- Find terms that have many $k$-grams that share "most" $k$-grams with the query.
+    - For "reasonable definitions" of "many $k$-grams in common", we can simply do a *single* scan through the $k$-grams index for the *original* query $q$.
     - Simply finding some terms with common $k$-grams may lead to an *implausible* (unlikely?) correction of the original query
     - Need more *nuanced* measures of the overlap in $k$-grams between a vocabulary term and the query
     - **Jaccard coefficient**: measuring overlap between two sets, $\lvert A \cap B \rvert / \lvert A \cup B \rvert$
