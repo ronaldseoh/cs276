@@ -64,6 +64,7 @@
     - If $q_t = 0$ Then $p_t = u_t$.
     - Then we only need to consider terms that appear in the query
     - And divide the product term into the product over the query terms *found in the document* and the ones *not* found in the document.
+    - Under this assumption, terms not in query simply do not affect the outcome at all.
 - **Retrieval Status Value (RSV)**: The only thing we need to estimate eventually to rank documents
     - $\text{RSV}_d = \sum_{t: x_t=q_t=1} \log \frac{p_t \cdot (1-u_t)}{u_t \cdot (1-p_t)}$
     - Define $c_t = \log \frac{p_t}{1-p_t} + \log \frac{1-u_t}{u_t}$
@@ -145,7 +146,18 @@
 
 - The BIM was originally designed for short catalog records and abstracts of fairly consistent length
 - For more modern full-text searches, we need to consider term frequencies and document length
-- *The BM25 weighting scheme (Okapi weighting)*: Sensitive to those quantities while not introducing too many parameters into the model
+- *The BM25 ("Best Match 25") weighting scheme (Okapi weighting)*: Sensitive to those quantities while not introducing too many parameters into the model
+- From [`opensourceconnections.com`, "BM25 The Next Generation of Lucene Relevance"](https://link.iamblogger.net/koqv4):
+    - In the classic Lucene similarity, $\text{IDF score} \cdot \text{TF score} \cdot \text{Field Norm} = \log \frac{N}{\text{df}_t + 1} \cdot \sqrt{\text{tf}} \cdot \frac{1}{\sqrt{\text{length}}}$
+    - BM25 **_IDF_** is similar to classic IDF, but has a potential to give a negative value (Lucene solved this by adding 1 to the value before taking the log.)
+    - BM25 **_TF_** dampens the impact of term frequency even further than traditional tf-idf: $\frac{(k+1) \cdot tf}{k + tf}$
+        - Approaches $k+1$ asymptotically
+        - Quickly hit diminishing returns
+        - Higher $k$ causes TF to take longer to reach saturation
+    - BM25 **_Document Length_**: Adjust TF score by whether the document is above or below *the average length* of a dcoument in the corpus.
+        - $\frac{(k+1) \cdot \text{tf}}{k \cdot (1 - b + b \cdot L) + \text{tf}}$, where $L$ is how long a document is relative to the average document length. The constant $b$ will allow us to finely tune how much influence $L$ has on scoring.
+        - Shorter documents hit the asymptote much faster. The more matches in the short docs, the more certain you can feel confident in the relevance.
+        - A lengthy book, on the other hand, takes many more matches to get a point where we can feel confident. So reaching "max relevance" takes longer.
 
 ### 11.4.4 Bayesian network approaches to IR
 
