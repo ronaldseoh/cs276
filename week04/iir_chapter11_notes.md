@@ -51,12 +51,15 @@
 
 - We can rank by just looking at the *odds* of relevance rather than the full probability
     - $O(R \mid \vec{x}, \vec{q}) = \frac{P(R = 1 \mid \vec{x}, \vec{q})}{P(R = 0 \mid \vec{x}, \vec{q})}$
-    - $= \frac{P(R = 1 \mid \vec{q})}{P(R = 0 \mid \vec{q})} \cdot \frac{P(\vec{x} \mid R = 1, \vec{q})}{\vec{x} \mid R = 0, \vec{q})}$
+    - $= \frac{P(R = 1 \mid \vec{q})}{P(R = 0 \mid \vec{q})} \cdot \frac{P(\vec{x} \mid R = 1, \vec{q})}{P(\vec{x} \mid R = 0, \vec{q})}$
     - This allows us to ignore $P(\vec{x} \mid \vec{q})$.
 - The fraction of prior probabilities are constant for a given query; no need to estimate it
 - But how can we estimate the probability of an entire term incidence vector occurring?
 - *Naive Bayes Conditional Independence Assumption*: The presence or absence of a word in a document is independent of the presence or absence of any other words, given the query.
     - Then $O(R \mid \vec{x}, \vec{q}) = O(R \mid \vec{q}) \cdot \prod_{t=1} \frac{P(x_t \mid R=1, \vec{q})}{P(x_t \mid R=0, \vec{q})}$
+- Shorter names for the conditional probabilities
+    - $p_t$ = $P(x_t = 1 \mid R = 1, \vec{q})$
+    - $u_t$ = $P(x_t = 1 \mid R = 0, \vec{q})$
 - Additional assumption: Terms *not* occurring in the query are *equally likely* to occur in relevant and nonrelevant documents
     - If $q_t = 0$ Then $p_t = u_t$.
     - Then we only need to consider terms that appear in the query
@@ -142,7 +145,7 @@
 
 - The BIM was originally designed for short catalog records and abstracts of fairly consistent length
 - For more modern full-text searches, we need to consider term frequencies and document length
-- *The BM25 weighting scheme (Okapi weighting)*
+- *The BM25 weighting scheme (Okapi weighting)*: Sensitive to those quantities while not introducing too many parameters into the model
 
 ### 11.4.4 Bayesian network approaches to IR
 
