@@ -1,0 +1,7 @@
+name: cs276-pa2
+channels:
+  - defaults
+dependencies:
+  - jupyter=1.0.0
+  - python=3.7.3
+  - tqdm=4.31.1
