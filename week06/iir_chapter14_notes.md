@@ -13,3 +13,14 @@
     2. kNN
         - The majority class of the $k$ nearest neighbors to a test document
         - Can handle non-spherical and complex classes
+
+## 14.1 Document representations and measures of relatedness in vector spaces
+
+- Document vectors are length-normalized unit vectors that point to the surface of a hypersphere.
+- Distances on the surface of the spehere and on the projection plane are *approximately the same*
+    - as long as we restrict ourselves to small areas of the surface
+    - and choose an appropriate projection.
+- Decisions of many vector space classifiers are based on a notion of distance.
+    - We use Euclidean distance
+- For unnormalized vectors, dot product, cosine similarity and Euclidean distance all have different behavior in general.
+    - Smaller the region when computing the similarity, more similar their behaviors are.
