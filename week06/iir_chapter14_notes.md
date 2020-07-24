@@ -91,3 +91,22 @@
     - Noise affects two components of kNN: the test document and the *closest* training document.
         - The two sources of noise are additive
     - For problems with Bayes error rate of 0, the error rate of 1NN will approach 0 as the size of the training set increases.
+
+## 14.4 Linear versus nonlinear classifiers
+
+- We will only consider two-class classifiers
+- Linear classifiers: two-class classifiers that decides class membership by comparing a linear combination of the features to a threshold.
+- More formally: Assign to $c$ if $\vec{w}^T \vec{x} > b$, and to $\bar{c}$ if $\vec{w}^T \vec{x} \leq b$.
+- Rocchio is a linear classifier:
+    - A vector $\vec{x}$ is on the decision boundary if it has equal distance to the two class centroids: $\lvert \vec{\mu}(c_1) - \vec{x} \rvert = \lvert \vec{\mu}(c_2) - \vec{x} \rvert$
+    - By manipulating the equation above, we can see that it corresponds to a linear classifier with $\vec{w} = \vec{\mu}(c_1) - \vec{\mu}(c_2)$ and $b = 0.5 \cdot (\lvert \vec{\mu}(c_1) \rvert^2 - \lvert \vec{\mu}(c_2) \rvert^2$.
+- Naive Bayes is a linear classifier:
+    - $\log \frac{\hat{P}(c \mid d)}{\hat{P}(\bar{c} \mid d)} = \log \frac{\hat{P}(c)}{\hat{P}(\bar{c})} + \sum_{1 \leq k \leq n_d} \log \frac{\hat{P}(t_k \mid c)}{\hat{P}(t_k \mid \bar{c})}$
+    - We choose class $c$ if the odds are greater than 1 or the log odds are greater than 0.
+    - $w_i = \log \frac{\hat{P}(t_i \mid c)}{\hat{P}(t_i \mid \bar{c})}$ and $b = - \log \frac{\hat{P}(c)}{\hat{P}(\bar{c})}$.
+    - So in log space, Naive Bayes is a linear classifier.
+- Noise features and noise documents
+- If there exists a hyperplane that perfectly separates the two classes, then we call the two classes *linearly separable*.
+    - If linear separability holds, then there is an *infinite* number of linear separators.
+    - We need a criterion for selecting among all decision planes, since some will do well on new data, while some won't.
+- An example of a *nonlinear* classifier is kNN.
