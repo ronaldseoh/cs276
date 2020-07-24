@@ -110,3 +110,19 @@
     - If linear separability holds, then there is an *infinite* number of linear separators.
     - We need a criterion for selecting among all decision planes, since some will do well on new data, while some won't.
 - An example of a *nonlinear* classifier is kNN.
+
+## 14.5 Classification with more than two classes
+
+- The method to use for multi-class classification depends on whether the classes are *mutually exclusive or not*.
+    - *Any-of*, *Multilabel*, or *Multivalue* classification
+        - Belong to everal classes simultaneously, or to a single class, or to none of the classes.
+        - Build a classifier for each class. Given the test document, apply each classifier separately.
+    - *One-of*, *Multinomial*, or *Single-label* classification
+        - The classes are mutually exclusive. Each document must belong to exactly one of the classes.
+        - A single classification function $\gamma$ in one-of classification whose range is $\mathcal{C}$
+- True one-of problems are less common in text classification than any-of problems.
+    - We will often make a one-of assumption, even if classes are not really mutually exclusive.
+- Since $J$ hyperplanes do not divide $\mathcal{R}^{\lvert V \rvert}$ into $J$ distinct regions, we must use a combination method when using two-class classifiers for one-of classification.
+    1. Rank classes and select top-ranked ones, by measuring distances from the $J$ linear separators: Since documents close to a separator are more likely to be misclassified, greater distance would indicate more plausibility
+    2. Another way: Build and run classifiers for each class, and assign the document to the class with the maximum score/confidence value/probability.
+- Confusion matrix: Can help pinpoint opportunities for improving the accuracy of the system
