@@ -44,4 +44,50 @@
 - Time complexity:
     - Adding up document vectors: $\Theta(\lvert \mathcal{D} \rvert L_{\text{ave}})$ ($L_{\text{ave}}$ instead of $\lvert V \rvert$ as we only need to consider non-zero entries)
     - Dividing each vector sum by the size of its class: $\Theta(\lvert \mathcal{C} \rvert \lvert V \rvert)$
-    - Testing: $\Theta(L_a + \lvert \mathcal{C} \rvert M_a) = \Theta(\lvert \mathcal{C} \rvert M_a)$. $L_a$ and $M_a$ are the numbers of tokens and types(??) in the *test* document.
+    - Testing: $\Theta(L_a + \lvert \mathcal{C} \rvert M_a) = \Theta(\lvert \mathcal{C} \rvert M_a)$. $L_a$ and $M_a$ are the numbers of tokens and types(?? - number of distinct vocabs?) in the *test* document.
+
+## 14.3 $k$ nearest neighbor
+
+- Unlike Rocchio, kNN determines the decision boundary *locally*.
+- We assign each document to the majority class of its $k$ closest neighbors.
+    - Based on the contiguity hypothesis, we expect a test document $d$ to have the same label as the training documents located in the *local region* surrounding $d$.
+- For $k \in \mathcal{N}$ in kNN, consider the region in the space for which the set of $k$ nearest neighbors is the *same*.
+    - For $k=1$, such region is called *Voronoi cells*.
+    - The space is partitioned into *convex polygons*, within each of which the set of $k$ nearest neighbors is *invariant*.
+- 1NN is not very robust since a single training document might be incorrectly label or atypical.
+- A probabilistic version of kNN: The probability of membership in class $c$ to be *the proportion* of the $k$ nearest neighbors in $c$.
+- The parameter $k$ is often chosen based on experience or knowledge about the classification problem at hand.
+    - Or we could choose it based on the performance on a held-out portion of the training set.
+- We could also give weights to the votes of the $k$ neighbors with their cosine similarity
+    - $\text{score}(c,d) = \sum_{d' \in S_k(d)} I_c(d') cos(\vec{v}(d'), \vec{v}(d))$
+    - This is often more accurate than simple voting.
+
+## 14.3.1 Time complexity and optimality of kNN
+
+- Training a kNN consists of determining $k$ and preprocessing documents
+    - Without preprocessing, no training at all.
+- Test time is $\Theta(\lvert \mathcal{D} \rvert M_{\text{ave}} M_a)$
+    - Linear in the size of the training set; since we need to compute the distance of each training document from the test document
+    - Independent of the number of classes: a potential advantage for problems with large number of classes.
+- kNN don't do parameter estimation: hence it is often called memory-based learning or *instance-based learning*.
+    - Large training sets could come with a severe efficiency penalty.
+- Could we make kNN more efficient than $\Theta(\lvert \mathcal{D} \rvert)$?
+    - Fast kNN algorithms for small dimensionality $M$
+    - Approximations for large $M$
+    - Haven't been extensively tested for text classification applications
+- Is the inverted index also the solution for efficient kNN? (Like ad hoc retrieval in Chapter 6.3.2)
+    - The inverted index will be efficient if the test document has *no term overlap* with a large number of training documents.
+    - Postings lists grow *sublinearly* with the length of the collection, since the vocabulary increases according to Heaps' law
+        - If the probability of occurrence of some terms *increase*, then the probability of others *must decrease*.
+    - However, most new terms are infrequent.
+    - So the complexity of inverted index search to be $\Theta(T)$
+    - Assuming average document length does not change over time, $\Theta(T) = \Theta(\lvert \mathcal{D} \rvert)$.
+- kNN's effectiveness is close to that of the most accurate learning methods in text classification.
+    - *Bayes error rate*: The average error rate of classifiers learned by a certain learning method, for a particular problem.
+        - (According to Wikipedia) This is analogous to the *irreducible* error.
+    - kNN is not optimal for problems with a non-zero Bayes error rate: problems that even its best possible classifier has a non-zero classification error.
+    - The error rate of 1NN is asymptotically bounded by *2x* the Bayes error rate.
+        - This is due to the effect of noise.
+    - Noise affects two components of kNN: the test document and the *closest* training document.
+        - The two sources of noise are additive
+    - For problems with Bayes error rate of 0, the error rate of 1NN will approach 0 as the size of the training set increases.
