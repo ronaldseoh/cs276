@@ -126,3 +126,17 @@
     1. Rank classes and select top-ranked ones, by measuring distances from the $J$ linear separators: Since documents close to a separator are more likely to be misclassified, greater distance would indicate more plausibility
     2. Another way: Build and run classifiers for each class, and assign the document to the class with the maximum score/confidence value/probability.
 - Confusion matrix: Can help pinpoint opportunities for improving the accuracy of the system
+
+## 14.6 The bias-variance tradeoff
+
+- Just because nonlinear classifiers are generally considered "more powerful", should we always use nonlinear classifiers for optimal effectiveness in statistical text classification?
+- learning error = bias + variance
+- Bias: The squared difference between $P(c \mid d)$ (the true conditional probability of $d$ being in $c$) and $\Gamma_{\mathcal{D}}(d)$ (the prediction of learned classifier, averaged over training sets)
+    - Bias is large if the learning method produces classifiers that are consistently wrong.
+    - We can think of bias as resulting from our domain knowledge that we build into the classifier.
+    - Linear classsifier have high bias, while non-linear methods have low bias.
+- Variance: The variation of the *prediction* of learned classifiers
+    - Variance is large if different training sets $\mathcal{D}$ give rise to very different classifiers $\Gamma_{\mathcal{D}}$.
+    - Linear methods low variance, nonlinear methods high variance
+- Surprising that so many of the best-known text classification algorithms are linear.
+    - With increased dimensionality, the likelihood of linear separability increases rapidly.
