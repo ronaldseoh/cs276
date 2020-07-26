@@ -40,6 +40,8 @@
 - The classes in Rocchio classification must be approximate spheres with similar radii.
     - Ignores details of the distribuion of points in a class and only uses distance from the centroid for classification
     - Often misclassifies multimodal classes
+        - From the slides: Prototype models have problems with polymorphic (disjunctive) categories.
+        - NN tends to handle polymorphic categories better than Rocchio/NB.
     - Two-class classification problems rarely have classes distributed like spheres with similar radii.
 - Time complexity:
     - Adding up document vectors: $\Theta(\lvert \mathcal{D} \rvert L_{\text{ave}})$ ($L_{\text{ave}}$ instead of $\lvert V \rvert$ as we only need to consider non-zero entries)
@@ -132,11 +134,15 @@
 - Just because nonlinear classifiers are generally considered "more powerful", should we always use nonlinear classifiers for optimal effectiveness in statistical text classification?
 - learning error = bias + variance
 - Bias: The squared difference between $P(c \mid d)$ (the true conditional probability of $d$ being in $c$) and $\Gamma_{\mathcal{D}}(d)$ (the prediction of learned classifier, averaged over training sets)
-    - Bias is large if the learning method produces classifiers that are consistently wrong.
+    - Bias is large (Not enough *capacity*) if the learning method produces classifiers that are consistently wrong.
     - We can think of bias as resulting from our domain knowledge that we build into the classifier.
     - Linear classsifier have high bias, while non-linear methods have low bias.
 - Variance: The variation of the *prediction* of learned classifiers
     - Variance is large if different training sets $\mathcal{D}$ give rise to very different classifiers $\Gamma_{\mathcal{D}}$.
     - Linear methods low variance, nonlinear methods high variance
 - Surprising that so many of the best-known text classification algorithms are linear.
+    - Representations of text are usually very high dimensional.
     - With increased dimensionality, the likelihood of linear separability increases rapidly.
+    - In high-dimensional space, high bias algorithms prevent overfitting and generalize more.
+- Is there a learning method that is optimal for all text classification problems?
+    - **No**, because there is a tradeoff between bias and variance.
