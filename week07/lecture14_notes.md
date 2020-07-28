@@ -25,3 +25,13 @@
 - Use of query expansion generally increases recall
     - A domain-specific thesaurus is required.
     - May significantly decrease precision, particularly when the query contains ambiguous terms.
+
+## How can we represent term relations?
+
+- Under the standard symbolic encoding of terms, different terms have no direct way of representing their similarities.
+- Basic IR is scoring on $q^Td$. Can we learn parameters $W$ to rank via $q^TWd$?
+    - Berger and Lafferty 1999, Query translation model
+    - $W$ is huge ($> 10^{10}$): Sparsity is the problem
+- We could learn a dense low-dimensional representation of a word in $\mathcal{R}^d$, such that dot products $u^Tv$ express word similarity.
+- Supervised Semantic Indexing shows successful use of learning $W$
+- This lecture will however consider *direct similarity*
