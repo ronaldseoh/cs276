@@ -40,19 +40,19 @@
 ## Neural Embeddings
 
 - Build a dense vector for each unique word, chosen so that it is good at predicting *other words appearing in its context*
-- To do that, build a NN model that predict a *center word* $w_t$ amongst its set of context words
+- To do that, build a NN model that predict between a *center word* $w_t$ and its set of context words
     - Directly learn *low-dimensional* word vectors, based on ability to predict
     - Learned weights of this model would be the *word embeddings*
 - **Word2Vec**:
     - Two Algorithms
-        1. Skip-grams
-            - Given the center word, only consider context words in the window of fixed size
-        2. Continuous Bag of Words
+        1. Skip-grams: Predict *context words* given target
+        2. Continuous Bag of Words: Predict *target word* from bag-of-words context
     - Two(Three?) Training Methods
         1. Hierarchical softmax
         2. Negative sampling
         3. Naive softmax
-    - Objective function
+    - Skip-grams overview
         - For each position $t = 1, \cdots, T$, predict context words within a window of fixed size $m$, given center word $w_j$.
         - Likelihood: $L(\Theta) = \prod_{t=1}^T \prod_{-m \leq j \leq m, j \neq 0} P(w_{t+j} \mid w_t)$
         - Objective is the average negative log likelihood: $J(\Theta) = - \frac{1}{T} \log L(\Theta) = - \frac{1}{T} \sum_{t=1}^T \sum_{-m \leq j \leq m, j \neq 0} \log P(w_{t+j} \mid w_t)$
+- These representations are very good at encoding *similarity* and *dimensions of similarity*.
