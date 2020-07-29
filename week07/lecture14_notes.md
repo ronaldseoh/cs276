@@ -52,3 +52,7 @@
         1. Hierarchical softmax
         2. Negative sampling
         3. Naive softmax
+    - Objective function
+        - For each position $t = 1, \cdots, T$, predict context words within a window of fixed size $m$, given center word $w_j$.
+        - Likelihood: $L(\Theta) = \prod_{t=1}^T \prod_{-m \leq j \leq m, j \neq 0} P(w_{t+j} \mid w_t)$
+        - Objective is the average negative log likelihood: $J(\Theta) = - \frac{1}{T} \log L(\Theta) = - \frac{1}{T} \sum_{t=1}^T \sum_{-m \leq j \leq m, j \neq 0} \log P(w_{t+j} \mid w_t)$
