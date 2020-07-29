@@ -35,3 +35,20 @@
 - We could learn a dense low-dimensional representation of a word in $\mathcal{R}^d$, such that dot products $u^Tv$ express word similarity.
 - Supervised Semantic Indexing shows successful use of learning $W$
 - This lecture will however consider *direct similarity*
+- Traditional way: Latent Semantic Indexing/Analysis - Use SVD; Results were somewhat iffy
+
+## Neural Embeddings
+
+- Build a dense vector for each unique word, chosen so that it is good at predicting *other words appearing in its context*
+- To do that, build a NN model that predict a *center word* $w_t$ amongst its set of context words
+    - Directly learn *low-dimensional* word vectors, based on ability to predict
+    - Learned weights of this model would be the *word embeddings*
+- **Word2Vec**:
+    - Two Algorithms
+        1. Skip-grams
+            - Given the center word, only consider context words in the window of fixed size
+        2. Continuous Bag of Words
+    - Two(Three?) Training Methods
+        1. Hierarchical softmax
+        2. Negative sampling
+        3. Naive softmax
