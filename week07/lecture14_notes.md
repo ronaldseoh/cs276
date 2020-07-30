@@ -44,7 +44,7 @@
     - Directly learn *low-dimensional* word vectors, based on ability to predict
     - Learned weights of this model would be the *word embeddings*
 - **Word2Vec**:
-    - Two Algorithms
+    - Two Algorithms (Word embedding models)
         1. Skip-grams: Predict *context words* given target
         2. Continuous Bag of Words: Predict *target word* from bag-of-words context
     - Two(Three?) Training Methods
@@ -56,3 +56,25 @@
         - Likelihood: $L(\Theta) = \prod_{t=1}^T \prod_{-m \leq j \leq m, j \neq 0} P(w_{t+j} \mid w_t)$
         - Objective is the average negative log likelihood: $J(\Theta) = - \frac{1}{T} \log L(\Theta) = - \frac{1}{T} \sum_{t=1}^T \sum_{-m \leq j \leq m, j \neq 0} \log P(w_{t+j} \mid w_t)$
 - These representations are very good at encoding *similarity* and *dimensions of similarity*.
+
+## Dual Embedding Space Model (DESM)
+
+- Word2Vec CBOW models learn 2 different word embeddings
+    - One for target word (*IN*)
+    - One for context word (*OUT*)
+- We usually retain just one of the two, depending on whether we use CBOW or SG.
+- But *interactions* of two seperate embedding spaces capture additional distributional semantics of words. **Let's combine the two**
+    - The CBOW model pushes the IN vectors (representing context words for the missing target word) closer to the OUT vector of other words that *they commonly co-occur with*.
+    - The IN-IN or OUT-OUT cosine similarities are higher for words that are similar in terms of **type or funtion**
+    - The IN-OUT (or very likely, OUT-IN) cosine similarities are higher for words that **co-occur often in the training corpus**
+- In the setting of ranked retrieval,
+    - Represent a document as a centroid of its word vectors in OUT space
+    - Represent each query term as a vector in IN space
+    - Then calculate the cosine similarities between the centroid and each term, and average them.
+- This allows us to capture *aboutness*: words that appear with this word
+- Using DESM solely to rank documents on the entire collection generates too many *false positives*
+    - Example: Given the query `cambridge`, the documents about `oxford` get high scores, because those documents would have similar context words
+- However, DESM is effective at finding subtler similarities/aboutness
+    - Allows ranking documents that is actually about the query terms higher, than the ones merely mentions the terms
+    - Example: Get the document about `giraffe`, and replace all occurrence of `giraffe` with `cambridge` $\rightarrow$ This document still scores low
+- Good results were shown when it was used as a re-ranking method for a smaller set of documents, given by other document ranking features such as TF-IDF
