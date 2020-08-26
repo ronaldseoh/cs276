@@ -38,3 +38,7 @@ My reading notes for [CS276: Information Retrieval and Web Search](https://link.
 ## Week 07: Word Embeddings
 
 - [Notes from Lecture 14: Distributed word representations for information retrieval](week07/lecture14_notes.pdf)
+
+## Week 09: Crawling and Question Answering
+
+- Notes from Lecture 19: Question answering (WIP)
