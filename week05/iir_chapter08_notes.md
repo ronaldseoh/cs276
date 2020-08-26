@@ -54,7 +54,7 @@
     - **Interpolated precision** $p_{interp}$ at a certain recall level $r$: The *highest* precision found for any recall level $r' \geq r$; $\max_{r' \geq r} p(r')$
 - **11-point interpolated average precision**
     1. For each information need in the *test collection*, measure interpolated precisions at the 11 recall levels: $0.0, 0.1, 0.2, \cdots, 1.0$.
-    2. At each recall level, calculate the arithmetic mean of all the interpoloated precisions.
+    2. At each recall level, calculate the arithmetic mean of all the interpolated precisions.
 - **Mean Average Precision (MAP)**: Have especially good discrimination and stability
     - For a *single* information need, *Average Precision* is the average of the precision value obtained for the set of top $k$ documents existing, after each relevant document is retrieved.
     - Then MAP is the average of average precisions over information needs.
@@ -82,7 +82,7 @@
         - The 'interesting' part of precision-recall curve is $0 < \text{recall} < 0.4$.
     - Report the area under the ROC curve
 - **Normalized Discounted Cumulative Gain (NDCG)**: Often employed with ML approaches to ranking
-    - Designed for non-binary notions of relevance
+    - Designed for **_non-binary_** notions of relevance
     - Evaluated over some number $k$ of top results
     - For a set of queries $Q$, let $R(j,d)$ be the relevance score given to document $d$ for query $j$.
     - $NDCG(Q, k) = \frac{1}{\lvert Q \rvert} \sum_{j=1}^{\lvert Q \rvert} Z_{kj} \sum_{m=1}^k \frac{2^{R(j,m)}-1}{\log_{2}(1+m)}$
