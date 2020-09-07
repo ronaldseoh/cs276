@@ -20,7 +20,7 @@
 - Zones: Similar to fields, but the contents can be arbitrary free text
     - Document titles, abstracts, etc.
     - The dictionary for a zone index must structure whatever vocabulary stems from the text of that zone.
-- We can directly encode the *zone in which* a term occurs in the *postings*, and reduce the dictionary size
+- We can directly encode the *zone* in which a term occurs in the *postings*, and reduce the dictionary size
     - Also allows efficient computation of *weighted zone scoring*
 
 ### 6.1.1 Weighted zone scoring
@@ -29,13 +29,13 @@
     - By computing a *linear* combination of **zone scores**: each zone of the document contributes a Boolean value.
     - The Boolean score from a zone would be $1$ if *all* the query terms occur in that zone.
     - $\sum_{i=1}^{l} g_i \cdot s_i$, where $g_i$ are weights given for each zone, and $s_i$ is the score from each zone
-- Weighted zone scoring is also referred to as a **ranked Boolean retrieval**.
+- Weighted zone scoring is also referred to as **ranked Boolean retrieval**.
 
 ### 6.1.2 Learning weights
 
 - How do we set the weights??
 - Used to be set by 'experts', but nowadays we learn them from curated training examples
-- *Machine-learned Relevance*
+- *Machine-learned relevance*
 
 ### 6.1.3 The optimal weight $g$
 
@@ -49,7 +49,7 @@
 - We need to assign *weights* to each term in the document
     - The simplest approach: Use *term frequency* - Weights to be equal to *the number of occurrences* of term $t$ in the document $d$.
 - **Bag of Words Model**: Having number of occurrences as weights is a *quantitative digest* of the document; ignores the exact ordering of the terms
-    - Intuitive that two documents with similar bag of words represnetations are similar *in content*.
+    - Intuitive that two documents with similar bag of words represnetations would be similar *in content*.
 
 ### 6.2.1 Inverse document frequency
 
@@ -61,7 +61,7 @@
 
 ### 6.2.2 Tf-idf weighting
 
-- Produce a composite term form each term in each document, using term frequency and idf
+- Produce a composite *weight* for each term in each document, using term frequency and idf
 - $\text{tf-idf}_{t,d} = \text{tf}_{t,d} \cdot \text{idf}_t$, where $t$ is a term and $d$ is a document
     - Highest when $t$ occurs many times within a *small* number of documents (thus lending high discriminating power to those documents)
     - Lower when the term occurs fewer times in a document, or occurs in many documents
@@ -71,7 +71,7 @@
     - together with a tf-idf for each component
 - *Overlap score measure*: Sum up the tf-idf of each term in $d$
 
-## 6.3 the vector space model for scoring
+## 6.3 The vector space model for scoring
 
 - Basic ideas underlying vector space scoring
 
@@ -79,7 +79,7 @@
 
 - How do we quantify the similarity between two documents?
 - Simple idea: Measure the magnitude of the vector difference between the two
-    - Drawback: Difference could be big just because one is much longer than the other, even though the contents are quite similar
+    - Drawback: Difference could be big, just because one is much longer than the other, even though the contents are quite similar
         - The relative distribution of terms could be quite similar, even when the absolute frequencies of one may be far larger.
 - **Cosine similarity**: $\frac{V(d1) \cdot V(d2)}{|V(d1)| \cdot |V(d2)|}$
     - The numerator is the *dot product*: The cosine of the angle $\Theta$ between the two vectors
