@@ -2,6 +2,8 @@
 
 My reading notes for [CS276: Information Retrieval and Web Search, Spring 2019](https://link.iamblogger.net/cs276) from Stanford University.
 
+Mostly contains the summary of the chapters from [Introduction to Information Retrieval](https://link.iamblogger.net/ycelu), along with memos for certain lecture slides and other sources.
+
 ## Week 01: Introduction and boolean retrieval
 
 - [IIR Chapter 01: Boolean Retrieval](https://link.iamblogger.net/y3s4u)
@@ -20,7 +22,6 @@ My reading notes for [CS276: Information Retrieval and Web Search, Spring 2019](
 
 ## Week 04: Probabilistic Retrieval
 
-- *Programming Assignment 1: Build a indexing system* (WIP)
 - [IIR Chapter 11: Probabilistic information retrieval](https://link.iamblogger.net/knk6o)
 
 ## Week 05: IR system evaluation, and speedups for free text queries 
@@ -30,9 +31,8 @@ My reading notes for [CS276: Information Retrieval and Web Search, Spring 2019](
 
 ## Week 06: Text classification using Naive Bayes, kNN, and SVM
 
-- *Programming Assignment 2: Probabilistic spelling corrector* (WIP)
 - [IIR Chapter 13: Text classification and Naive Bayes](https://link.iamblogger.net/nual1)
-- [IIR Chapter 14: Vector space classification](week06/iir_chapter14_notes.pdf)
+- [IIR Chapter 14: Vector space classification](https://link.iamblogger.net/ir452)
 - *IIR Chapter 15: Support vector machines and machine learning on documents* (WIP)
 
 ## Week 07: Word Embeddings
