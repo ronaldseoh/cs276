@@ -4,6 +4,8 @@ My reading notes for [CS276: Information Retrieval and Web Search, Spring 2019](
 
 Mostly contains the summary of the chapters from [Introduction to Information Retrieval](https://link.iamblogger.net/ycelu), along with memos for certain lecture slides and other sources.
 
+**Note:** To cope with mathematical notations, I've used [Pandoc](https://link.iamblogger.net/c4yw8) to convert all the Markdown notes into LaTeX pdfs. I think this is the easiest solution at the moment to view math formulas on GitHub. Please let me know if you think there's a better solution.
+
 ## Week 01: Introduction and boolean retrieval
 
 - [IIR Chapter 01: Boolean Retrieval](https://link.iamblogger.net/y3s4u)
