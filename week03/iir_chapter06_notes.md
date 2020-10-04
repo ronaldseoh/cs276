@@ -34,7 +34,7 @@
 ### 6.1.2 Learning weights
 
 - How do we set the weights??
-- Used to be set by 'experts', but nowadays we learn them from curated training examples
+- Used to be set by 'experts,' but nowadays we learn them from curated training examples
 - *Machine-learned relevance*
 
 ### 6.1.3 The optimal weight $g$
@@ -79,7 +79,7 @@
 
 - How do we quantify the similarity between two documents?
 - Simple idea: Measure the magnitude of the vector difference between the two
-    - Drawback: Difference could be big, just because one is much longer than the other, even though the contents are quite similar
+    - Drawback: Difference could be big, just because one is much longer than the other, even though the *contents* are quite similar
         - The relative distribution of terms could be quite similar, even when the absolute frequencies of one may be far larger.
 - **Cosine similarity**: $\frac{V(d1) \cdot V(d2)}{|V(d1)| \cdot |V(d2)|}$
     - The numerator is the *dot product*: The cosine of the angle $\Theta$ between the two vectors
