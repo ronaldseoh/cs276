@@ -8,8 +8,8 @@
 - *Unweighted* and *Unnormalized* counts should not be used in vector space classification.
 - Two vector space classification methods in this chapter
     1. Rocchio
-        - Regions centered centroids / prototypes, computed as the center of mass of all documents in the class
-        - Inaccurate if classes are not approximately *spheres* wil similar radii.
+        - Regions centered on **_centroids / prototypes_**, computed as the center of mass of all documents in the class
+        - Inaccurate if classes are not approximately *spheres* with similar radii.
     2. kNN
         - The majority class of the $k$ nearest neighbors to a test document
         - Can handle non-spherical and complex classes
@@ -17,13 +17,13 @@
 ## 14.1 Document representations and measures of relatedness in vector spaces
 
 - Document vectors are length-normalized unit vectors that point to the surface of a hypersphere.
-- Distances on the surface of the spehere and on the projection plane are *approximately the same*
+- Distances on 1) the surface of the sphere and on 2) the projection plane are *approximately the same*
     - as long as we restrict ourselves to small areas of the surface
     - and choose an appropriate projection.
 - Decisions of many vector space classifiers are based on a notion of distance.
     - We use Euclidean distance
-- For unnormalized vectors, dot product, cosine similarity and Euclidean distance all have different behavior in general.
-    - Smaller the region when computing the similarity, more similar their behaviors are.
+- For unnormalized vectors, dot product, cosine similarity and Euclidean distance all have different behaviors in general.
+    - Smaller the region when computing the similarities, more similar their behaviors are.
 
 ## 14.2 Rocchio classification
 
@@ -33,20 +33,21 @@
     - The centroid of a class $c$ is the vector average or center of mass of its members: $\vec{\mu}(c) = \frac{1}{\lvert D_c \rvert} \sum_{d \in D_c} \vec{v}(d)$
         - $D_c$ is the set of documents in $\mathcal{D}$ whose class is $c$: $D_c = \lbrace d: <d, c> \in \mathcal{D} \rbrace$
         - $\vec{v}(d)$ is the normalized vector of $d$.
+    - **Decision rule**: Determine the centroid $\vec{\mu}(c)$ that the point is closest to and then assign it to $c$.
     - The boundary between two classes in Rocchio classification is the set of *points* with *equal distance* from the two centroids, which is always a *line*.
 - The generalization of a line in $M$-dimensional space is a *hyperplane*, which we define as the set of points $\vec{x}$ that satisfy $\vec{w}^T \vec{x} = b$. $\vec{w}$ is the $M$-dimensional normal vector of the hyperplane, and $b$ is a constant.
     - Thus, the boundaries of class regions in Rocchio are hyperplanes.
 - The assignment criterion is Euclidean distance; an alternative is cosine similarity.
 - The classes in Rocchio classification must be approximate spheres with similar radii.
     - Ignores details of the distribuion of points in a class and only uses distance from the centroid for classification
-    - Often misclassifies multimodal classes
+    - Often misclassifies *multimodal* classes
         - From the slides: Prototype models have problems with polymorphic (disjunctive) categories.
         - NN tends to handle polymorphic categories better than Rocchio/NB.
     - Two-class classification problems rarely have classes distributed like spheres with similar radii.
 - Time complexity:
     - Adding up document vectors: $\Theta(\lvert \mathcal{D} \rvert L_{\text{ave}})$ ($L_{\text{ave}}$ instead of $\lvert V \rvert$ as we only need to consider non-zero entries)
     - Dividing each vector sum by the size of its class: $\Theta(\lvert \mathcal{C} \rvert \lvert V \rvert)$
-    - Testing: $\Theta(L_a + \lvert \mathcal{C} \rvert M_a) = \Theta(\lvert \mathcal{C} \rvert M_a)$. $L_a$ and $M_a$ are the numbers of tokens and types(?? - number of distinct vocabs?) in the *test* document.
+    - Testing: $\Theta(L_a + \lvert \mathcal{C} \rvert M_a) = \Theta(\lvert \mathcal{C} \rvert M_a)$. $L_a$ and $M_a$ are the numbers of tokens and types (distinct vocabs) in the *test* document.
 
 ## 14.3 $k$ nearest neighbor
 
