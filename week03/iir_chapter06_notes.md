@@ -104,13 +104,13 @@
 - Select the top $K$ scores would require a priority queue structure, often using a heap
     - $2N$ comparisons to construct
     - each of $K$ scores can be extracted from the heap at a cost of $O(\log N)$ comparisons
-- Document-at-a-time: We might be able to traverse the postings lists of the various query terms *concurrently* - We would then compute the scores of one document at a time
+- Document-at-a-time: We might be able to traverse the postings lists of the various query terms *concurrently* - We would then compute the scores, one document at a time
 
 ## 6.4 Variant tf-idf functions
 
 ### 6.4.1 Sublinear tf scaling
 
-- It is questionable whether 20 times the occurrence necessarily indicates 20 times the importance
+- It is questionable whether 20 times the occurrence necessarily indicates *20 times the importance*
 - Alternative: Use the logarithm of the term frequency
 - $\text{wf}_{t,d} = 1+\log \text{tf}_{t,d}$ if $\text{tf}_{t,d} > 0$, $0$ otherwise
 - $\text{wf-idf}_{t,d}$
@@ -122,7 +122,7 @@
 - $\text{ntf}_{t,d} = a + (1-a) \cdot \frac{\text{tf}_{t,d}}{\text{tf}_{\text{max}}(d)}$
     - $a$ is a *smoothing term*; values between 0 and 1 and is generally set to 0.4. *Dampens* the contribution of the second term
         - We want to avoid a *large swing* in $\text{ntf}$ from modest changes in $\text{tf}_{t,d}$.
-- We want to use this because we want to deal with the cases of higher term frequencies in longer documents as longer ones tend to *repeat the same words over and over again*
+- We want to use this because we want to deal with the cases of higher term frequencies in longer documents: longer ones tend to *repeat the same words over and over again*
 - This method could be unstable in the cases like the following:
     - when the list of stop words changes
     - A document may contain an outlier term with an unusually large number of occurrences
@@ -131,7 +131,7 @@
 ### 6.4.3 Document and query weighting schemes
 
 - *SMART* notation
-- `ddd.qqq`: `ddd` represents the term weighting of the document vector, and the second gives the weighting for the query vector
+- `ddd.qqq`: `ddd` represents the term weighting of the document vector; `qqq` indicates the weighting for the query vector
     - the first letter: term frequency
     - the second: document frequency
     - the third: normalization
@@ -152,13 +152,12 @@
 - *Pivoted document length normalization*: when computing dot product score with a (unit) query vector, the score is *skewed* to account for the effect of document length on relevance.
 - Suppose that we have a document collection with an ensemble of queries
     - and Boolean judgments of whether or not each $d$ is relevant to each query $q$.
-- Then we could calculate a *probability of relevance*: a *function* of document length, averaged over all queries in the ensemble.
+- Then we could calculate a *probability of relevance*: a *function* of *document length*, averaged over all queries in the ensemble.
     - (Imagine an upward-sloping curve here)
 - Cosine normalization equation has a tendency to distort the true relevance, at the expense of longer documents.
-    - *Pivot length* $l_p$: the point where distortion trend changes
+    - **Pivot length** $l_p$: the point where distortion trend changes
 - Want to adjust this to match more closely to the true relevance curve: rotate the cosine normalization curve *counter-clockwise* about $p$
-    - Use normalization factor *larger* than the Euclidean length for documents shorter than $l_p$
-    - Use normalization factor *smaller* than the Euclidean length for documents longer than $l_p$
+    - Use normalization factor *larger* than the Euclidean length for *each* documents shorter than $l_p$
+    - Use normalization factor *smaller* than the Euclidean length for *each* documents longer than $l_p$
 - Simple implementation: $a \cdot \lvert V(d) \rvert + (1-a) \cdot \text{piv}$, where $\text{piv}$ is the cosine normalization value at which the two curves intersect.
-    - $a < 1$
-    - Crosses the $y=x$ line at $\text{piv}$
+    - Still linear in $\lvert V(d) \rvert$, but $\text{slope} < 1$
