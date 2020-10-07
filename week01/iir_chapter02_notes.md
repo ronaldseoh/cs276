@@ -45,7 +45,7 @@
 - **Stop list**: Take the most frequent terms hand-filtered for their semantic content relative to the domain of the documents being indexed.
 - Significantly reduces the number of postings that a system has to store, and a lot of the time not indexing stop words does little harm.
     - However, phrase searches could be affected (e.g. `President of the United States`, `flights to London`)
-- The general trend in IR over time has been from standard use of quite large stop lists (200-300 terms) to very small stop lists (7-12 terms) to *no stop list whatsoever*.
+- The general trend in IR over time has been from standard use of quite large stop lists (200-300 terms) $rightarrow$ very small stop lists (7-12 terms) $rightarrow$ *no stop list whatsoever*.
     - Exploiting the *statistics* of language so as to be able to cope with common words in better ways.
     - Good compression
     - Standard term weighting leading to very common words having *little impact* on document rankings
@@ -53,7 +53,7 @@
 
 ### 2.2.3 Normalization (equivalence classing of terms)
 
-- We often would want tokens in queries to match the ones in the document even if they are not quite the same.
+- We often would want tokens in queries to match the ones in the document even if they are not quite same.
 - **Token normalization**: The process of *canonicalizing tokens* so that matches occur despite superficial differences in the character sequences of the tokens.
 - Most standard way: Implicitly creating **equivalence classes**, normally named after one member of the set
     - It is not obvious when you might want to add characters.
