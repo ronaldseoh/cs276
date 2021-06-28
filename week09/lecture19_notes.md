@@ -43,4 +43,23 @@
     - Named entity recognition
     - Entity linking ("Wikification")
     
+## Texts are knowledge
 
+- If we want our intelligent agents to make decisions on our behalf, then we still need to construct **knowledge bases.**
+    - For humans, going from the largely unstructured language on the web to actionable information is *effortlessly easy* (hmm...really?)
+    - Not much so for the computers at the moment.
+    
+- In order to have computers work with language for knowledge, it needs to consider not just semantics but also **pragmatics.**
+    - **Pragmatics**: taking account of *context* in determining meaning; a natural part of language understanding and use.
+    - Search engines are great because they inherently take into account pragmatics.
+
+## Notable models?
+
+- Word alignment for question answering (Scott Wen-tau Yih 2013)
+    - Assume that there is an underlying alignment: describes which words in and can be associated
+    - See if syntactic and semantic relations support the answer.
+    
+- Full NLP QA
+    - LCC (Harabagiu / Moldovan 2003)
+    - DrQA (Chen et al. 2017): Open-domain QA
+    - Stanford Attentive Reader

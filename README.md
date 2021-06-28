@@ -43,4 +43,4 @@ Mostly contains the summary of the chapters from [Introduction to Information Re
 
 ## Week 09: Crawling and Question Answering
 
-- Notes from Lecture 19: Question answering (WIP)
+- [Notes from Lecture 19: Question answering](https://link.iamblogger.net/34tcm)
